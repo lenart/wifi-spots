@@ -1,0 +1,15 @@
+h2. WiFi Spots
+
+Directory of free WiFi spots in Slovenia
+
+This is the source code for the Slovenian Ruby on Rails project "wifi-tocke.si":http://wifi-tocke.si. Feel free to contribute!
+
+h3. To-do list
+
+* switch to version 3 of Google Maps API
+* users can confirm that a wifi signal exists at the location
+* add reason when item is "deleted"
+* search by spot title & description
+* search by users geolocation
+* add a slider for distance/range on cities view
+* make views for mobile phones
