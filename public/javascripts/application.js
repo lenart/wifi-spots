@@ -68,12 +68,14 @@ var App = {
   
 };
 
-
+/*
+// This was moved to application.haml
 document.observe("dom:loaded", function() {
 
 	Event.observe($("city"), "change", function() {
 		city = $("city");
-		location.href = '	/cities/' + city.getValue();
+		location.href = '/cities/' + city.getValue();
 	});
 
 });
+*/
