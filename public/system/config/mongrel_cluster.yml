@@ -1,0 +1,7 @@
+--- 
+cwd: /home/wifitocke/wifi-tocke.si/current
+log_file: /home/wifitocke/wifi-tocke.si/shared/log/mongrel.log
+port: 10151
+pid_file: tmp/pids/mongrel.pid
+servers: 2
+environment: production

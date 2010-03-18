@@ -1,0 +1,87 @@
+!!!
+%html
+  %head
+    %title= yield(:title) || "WiFi točke"
+    %meta{ "http-equiv" => "Content-Type", :content=> "text/html; charset=utf-8" }
+    %meta{ :name => 'keywords', :content => yield(:keywords) || 'wifi točke, brezžična omrežja, brezplačne točke, brezplačen internet, dostop do interneta, wi-fi, wireless' }
+    %meta{ :name => 'description', :content => yield(:description) || 'Seznam WiFi točk v Sloveniji, kjer lahko brezplačno dostopate do interneta. Poznaš tudi ti kako? Dodaj jo na zemljevid!' }
+    
+    /
+      AUTHORS:
+      Dusan Smolnikar, design | http://dusan.fora.si/
+      Lenart Rudel, programming | http://twitter.com/lenartr
+      Nina Kožar, Blaž Galič, idea & copy
+    
+    = stylesheet_link_tag "screen"
+    = javascript_include_tag :defaults
+
+    - if @spot
+      = render :partial => "spots/geo_header"
+    
+    - if @map
+      = GMap.header(:with_vml => false)
+      =# javascript_include_tag("markerGroup")
+      = javascript_include_tag("clusterer")
+      = @map.to_html
+
+
+  %body
+  
+    #head
+      %h1= link_to(image_tag('wifi.gif', :alt => "Wifi") + image_tag('tocke.gif', :alt => "točke"), root_url)
+
+      - form_tag cities_path, :method => :get do
+        %fieldset
+          %label
+            Mesto:
+            - active = @city.id if @city
+            = select_tag 'city', options_for_select(City.all(:order => 'name asc').collect {|c| [c.name, c.id] }, active)
+          /
+            %label
+              Kategorija:
+              = select_tag 'category', options_for_select(Category.all.collect {|c| [c.name, c.id] })
+          %noscript
+            %div{:class => "noscript"}
+              = submit_tag "Potrdi"
+
+    - if false # TODO do we need this navigation?
+      #user_navigation
+        = render :partial => "users/user_bar"
+        
+      %ul#nav
+        %li= link_to "Domov", root_path
+        %li= link_to "Kategorije", categories_path
+        %li= link_to "Mesta", cities_path
+        %li= link_to "Seznam WiFi točk", spots_path
+        %li= link_to "Dodaj WiFi točko", new_spot_path
+        - if current_user && current_user.admin?
+          %li= link_to "Uvozi RSS", import_spots_path, :method => :post, :confirm => "Si prepričan da želiš uvoziti nove točke?"
+
+    - if @map
+      #map
+        = yield :map
+      
+    #controls
+      = link_to '<span>Dodaj točko</span>', new_spot_path, :id => "add_point"
+      
+    #main
+      - flash.each do |key, msg|
+        = content_tag :div, msg, :class => "#{key} flash"
+
+      = yield
+
+    #footer
+      %div
+        2010
+        &copy;
+        Vse pravice pridržane
+        |
+        Komentarje in predloge sprejemamo na
+        = mail_to("info@wifi-tocke.si", "info@wifi-tocke.si") + '!'
+        |
+        Sponzor gostovanja
+        = link_to "Siel.si", 'http://www.siel.si', :title => 'Siel - Ruby gostovanje'
+      
+    - unless local_request?
+      = render :partial => "layouts/google_analytics"
+      =# render :partial => "layouts/get_satisfaction"

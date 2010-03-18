@@ -1,0 +1,14 @@
+- title "WiFi točke blizu #{@city.name}"
+- keywords "#{@city.name}, wifi točke, brezžična omrežja, brezplačne točke, brezplačen internet, dostop do interneta, wi-fi, wireless"
+- description "Seznam brezplačnih WiFi točk v mestu #{@city.name}"
+
+%h2
+  = @city.name
+  = @spots.size
+  WiFi točk
+  v oddaljenosti
+  = @distance
+  km
+
+%ul#main_list
+  = render @spots

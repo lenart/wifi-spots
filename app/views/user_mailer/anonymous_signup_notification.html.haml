@@ -1,0 +1,29 @@
+%p
+  Radi bi vas obvestili, da smo vam na spletni strani wifi-tocke.si pripravili uporabniški račun. Tako imate zdaj možnost, da kadarkoli dopolnite podatke ali izbrišete katerokoli vnešeno točko.
+
+%p Ko boste naslednjič obiskali našo stran, se prijavite z naslednjimi podatki:
+
+%p
+  %strong E-mail:
+  = @user.email
+  %br
+  %strong Geslo:
+  = @user.password
+
+%p
+  Prijavite se lahko na naslovu:
+  = link_to @login_url, @login_url
+
+%p
+  Vaše geslo in ostale podatke lahko spremenite v svojem profilu
+  = link_to @profile_url, @profile_url
+  Prav tako lahko kadarkoli zahtevate izbris vašega uporabniškega računa.
+
+%p
+  Lep pozdrav,
+  %br
+  ekipa WiFi točke
+ 
+%p{:style => 'color: #666666;'}
+  = "------------------------------------------------"
+  Seznam brezplačnih WiFi točk na http://wifi-tocke.si

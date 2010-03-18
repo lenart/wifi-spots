@@ -1,0 +1,6 @@
+%li
+  %h2= link_to h(category.name), category
+  - if current_user && current_user.admin?
+    = link_to "Uredi", edit_category_path(category)
+    = link_to "Izbriši", category_path(category), :method => :delete, :confirm => "Si prepričan da želiš izbrisati kategorijo in vse pripadajoče točke?"
+  %p= h(category.description)

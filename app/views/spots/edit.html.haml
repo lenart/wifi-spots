@@ -1,0 +1,6 @@
+%h2 Uredi podatke
+
+- form_for @spot do |f|
+  = render :partial => "form", :locals => { :f => f }
+  
+  = submit_tag "Osveži"

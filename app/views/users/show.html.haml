@@ -1,0 +1,10 @@
+%h1
+  Uporabnik
+  = @user.email
+
+- if current_user && (current_user == @user || current_user.admin?)
+  %p
+    = link_to "Uredi profil", edit_user_path(@user)
+    - if current_user.admin?
+      |
+      = link_to "Izbriši moj profil", user_path(@user), :method => :delete, :confirm => "Ste prepričani da želite odstraniti račun? Vsi vaši podatki bodo za vedno izbrisani!"

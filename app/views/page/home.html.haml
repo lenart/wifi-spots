@@ -1,0 +1,25 @@
+- title "Seznam WiFi točk"
+
+#promo
+  .predstavitev.fl
+    %h2 WiFi točke
+    %p
+      Lorem ipsum sit dolor amet
+  .start.fr
+    %p.cta_button.btn_izgubljen= link_to "Dodaj WiFi točko", new_spot_path
+
+#mesta
+  %ul
+    - @cities.each do |city|
+      %li= link_to city.name, city
+
+#tocke.clr
+  %h2 Zadnje dodane
+  
+  - if @spots
+    - @spots.each do |spot|
+      = render spot
+      
+    %p= link_to "Seznam vseh točk »", spots_path
+  - else
+    %p Ni vnešenih WiFi točk

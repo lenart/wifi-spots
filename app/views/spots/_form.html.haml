@@ -1,0 +1,83 @@
+= error_messages_for :spot
+
+= hidden_field_tag 'lat', @spot.lat
+= hidden_field_tag 'lng', @spot.lng
+= hidden_field_tag 'zoom', @spot.zoom
+
+#spot_details
+
+  %dl
+    %dt= f.label :title, "Ime lokacije"
+    %dd
+      = f.text_field :title
+      %span.hint Ime lokala, restavracije oz. objekta
+    
+    %dt Lokacija
+    %dd
+      %p Povlecite modro ikono na mesto kjer se nahaja WiFi točka na zemljevidu.
+  
+    %dt= f.label :category_id, "Kategorija"
+    %dd
+      = f.select :category_id, Category.all.collect {|c| [ c.name, c.id]}
+
+    %dt= f.label :notes, "Opis"
+    %dd
+      = f.text_area :notes, :rows => 10, :cols => 40
+      %span.hint
+        Navedite ceno kave/piva, primernost prostora za sestanke, ...
+        Za oblikovanje besedila lahko uporabljate
+        = link_to "Textile", "http://textism.com/tools/textile/", :target => "_blank"
+
+  %dl
+    %dt= f.label :open, "Tip omrežja"
+    %dd
+      = f.select :open, [['Odprto',true], ['Zaščiteno', false]]
+      %span.hint Je signal zaščiten z geslom ali je odprt?  
+
+    %dt= f.label :ssid, "Signal (SSID)"
+    %dd
+      = f.text_field :ssid
+      %span.hint Ime točke/signala
+      
+    %dt#pass_t
+      = f.label :key, "Geslo za dostop"
+    %dd#pass_d
+      = f.text_field :key
+      %span.hint Vpišite geslo, če ga veste
+  
+  - if @spot.new_record? || (logged_in? && current_user.admin?)
+    %dl
+      %dt= f.label :author, "E-mail / vzdevek"
+      %dd
+        = f.text_field :author
+        %span.hint Ne skrbite, tudi mi ne maramo SPAMa. Vašega naslova ne bomo nikoli objavili.
+  
+  #notes{:style => 'display:none'}
+    %dl
+      %dt= f.label :location, "Naslov"
+      %dd
+        = f.text_field :location
+        %span.hint Vnesite čim bolj točen naslov. Primer: Dunajska cesta 100
+
+      %dt= f.label :city, "Mesto, kraj"
+      %dd
+        = f.text_field :city
+        %span.hint Primer: Ljubljana, Slovenj Gradec, Kranj
+        
+      %dt= f.label :url, "Spletna stran"
+      %dd
+        = f.text_field :url
+        %span.hint Vpišite povezavo do spletne strani. Primer: http://wifi-tocke.si
+
+  %p#toggle_notes
+    = link_to_function 'Želim vnesti še dodaten opis', 'App.toggleNotes()'
+
+- unless @spot.location.blank? && @spot.city.blank? && @spot.url.blank?
+  = javascript_tag "App.toggleNotes()"
+
+- javascript_tag do
+  new ResizingTextArea($('spot_notes'));
+  $('spot_open').observe('change', App.passState);
+  App.passState();
+
+%br.clear

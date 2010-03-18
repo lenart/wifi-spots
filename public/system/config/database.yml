@@ -1,0 +1,11 @@
+# This file is only used for deployment
+
+production:
+  adapter: mysql
+  encoding: utf8
+  reconnect: false
+  database: wifitocke
+  pool: 5
+  username: wifitocke
+  password: YQssPMxP
+  socket: /tmp/mysql.sock

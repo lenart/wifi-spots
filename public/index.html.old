@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="EN">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <title>WiFi točke</title>
+  <meta name="description" content="Seznam brezplačnih WiFi točk v Sloveniji">
+  <meta name="keywords" content="wifi, brezplačen internet, dostop do interneta, wireless, brezžični internet, bar, kavarna, gostilna, restavracija">
+  <link rel="image_src" href="http://wifi-tocke.si/images/free_wifi.png" />
+  <style type="text/css" media="screen">
+    html {overflow: auto;}
+    html, body, div, iframe {margin: 0px; padding: 0px; height: 100%; border: none;}
+    iframe {display: block; width: 100%; border: none; overflow-y: auto; overflow-x: hidden;}
+  </style>
+</head>
+<body>
+  <iframe id="maps" name="maps" src="http://maps.google.com/maps/ms?ie=UTF8&hl=en&oe=UTF8&msa=0&msid=115530814119313728840.00047d9535ae3d1256bef" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto">
+    <p>Vas brskalnik ne podpira iFrames. Pojdite na <a href="http://maps.google.com/maps/ms?ie=UTF8&hl=en&oe=UTF8&msa=0&msid=115530814119313728840.00047d9535ae3d1256bef">google maps</a>.</p>
+  </iframe>
+  
+  <script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+  try {
+  var pageTracker = _gat._getTracker("UA-651180-14");
+  pageTracker._trackPageview();
+  } catch(err) {}</script>
+
+</body>
+</html>

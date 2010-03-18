@@ -1,0 +1,7 @@
+%h1 Uredi kategorijo
+
+%p= link_to "Seznam kategorij", categories_path
+
+- form_for @category do |f|
+  = render :partial => "form", :locals => { :f => f }
+  = submit_tag "Uredi kategorijo"

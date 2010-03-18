@@ -1,0 +1,23 @@
+- title "Prijava"
+
+%h1 Prijavite se
+
+= error_messages_for :user_session
+
+- form_for @user_session do |f|
+
+  %p
+    = f.label :email, "E-mail naslov"
+    = f.text_field :email
+    
+  %p
+    = f.label :password, "Geslo"
+    = f.password_field :password
+  
+  %p
+    %label{:for => "user_session_remember_me"}
+      = f.check_box :remember_me
+      Zapomni si me
+
+  %p
+    = submit_tag 'Prijavi se'

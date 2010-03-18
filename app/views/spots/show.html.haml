@@ -1,0 +1,60 @@
+- title @spot.title
+- keywords "#{@spot.title}, wifi točka, brezžično omrežje, brezplačna točka, brezplačen internet, dostop do interneta, wi-fi, wireless"
+- description "Brezplačna WiFi točka: #{@spot.title} - #{@spot.notes}"
+
+%h2=h @spot.title
+
+%div.geo
+  %span.latitude= @spot.lat
+  %span.longitude= @spot.lng
+
+%p
+  = link_to "Uredi podatke", edit_spot_path(@spot), :rel => :nofollow
+  - if logged_in? && (current_user == @spot.user || current_user.admin?)
+    |
+    = link_to "Izbriši", delete_spot_path(@spot), :method => :delete, :confirm => "Si prepričan da želiš odstraniti točko?"
+    |
+    = link_to "Izbriši (iz baze)", spot_path(@spot), :method => :delete, :confirm => "Si prepričan da želiš popolnoma odstraniti točko? Undo ne obstaja!"
+    
+%dl
+  %dt Kategorija
+  %dd= @spot.category.name
+
+  - unless @spot.location.blank?
+    %dt Ulica ali naslov:
+    %dd=h @spot.location
+    
+  - unless @spot.city.blank?
+    %dt Kraj, Mesto:
+    %dd=h @spot.city
+      
+%dl
+  %dt Tip omrežja
+  %dd
+    = spot_type(@spot.open?)
+
+  - unless @spot.ssid.blank?
+    %dt SSID
+    %dd=h @spot.ssid
+
+  - unless @spot.open? || @spot.key.blank?
+    %dt Geslo
+    %dd=h @spot.key
+  
+%dl
+  - unless @spot.url.blank?
+    %dt Spletna stran
+    %dd= link_to @spot.url, @spot.url, :target => '_blank'
+  
+  - unless @spot.notes.blank?
+    %dt Opis
+    %dd= textilize(@spot.notes)
+
+  - unless @spot.author.blank?
+    %dt Avtor
+    %dd=h @spot.author.split("@").first
+    
+%div.clear
+
+%p
+  = link_to "« Nazaj na seznam", spots_path

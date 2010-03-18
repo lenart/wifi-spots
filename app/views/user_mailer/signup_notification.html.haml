@@ -1,0 +1,22 @@
+%p Veseli nas da ste postali registriran uporabnik spletne strani wifi-tocke.si.
+%p
+  Prijavite se lahko na naslovu
+  = link_to @login_url, @login_url
+
+%p
+  Vaši podatki za prijavo:
+
+%p
+  %strong E-mail:
+  = @user.email
+  %br
+  %strong Geslo: 
+  = @user.password
+
+%p
+  Lep pozdrav,
+  ekipa WiFi točke
+ 
+%p{:style => 'color: #666666'}
+  = "------------------------------------------------"
+  Seznam brezplačnih WiFi točk na http://wifi-tocke.si

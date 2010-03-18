@@ -1,0 +1,1 @@
+RAILS_ENV=production; /usr/local/bin/rake wifi:import RAILS_ENV=production; date; echo "END OF IMPORT OUTPUT -----------------";

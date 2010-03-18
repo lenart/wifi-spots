@@ -1,0 +1,24 @@
+- title "Dodaj novo WiFi točko"
+
+%h2 Vnesi novo WiFi točko
+
+- form_for @spot do |f|
+
+  - if false
+    - if @user
+      = hidden_field_tag :email, @user.email
+    - else
+      %dl
+        %dt= label_tag :email, "E-mail"
+        %dd
+          = text_field_tag :email
+          %span.hint
+            V kolikor že imate račun,
+            = link_to("se prijavite", login_path) + "."
+      
+  = render :partial => "form", :locals => { :f => f }
+
+  = submit_tag "Dodaj točko"
+  
+%p
+  = link_to "« Nazaj na seznam", spots_path

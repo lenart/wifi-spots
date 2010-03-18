@@ -1,0 +1,12 @@
+%li
+  = link_to h(spot.title), spot
+  %span
+    - if spot.notes.blank?
+      &nbsp;
+    - else
+      = truncate(h(spot.notes), :length => 100, :omission => '...')
+  - # TODO Spremeni CSS da bo podpiral 3 stolpce
+  - if false && spot.respond_to?(:distance)
+    %span.distance
+      = number_with_precision(spot.distance, 2)
+      km

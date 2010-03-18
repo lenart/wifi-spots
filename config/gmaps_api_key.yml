@@ -1,0 +1,16 @@
+# Fill here the Google Maps API keys for your application
+# In this sample:
+# - For development and test, we have only one possible host (localhost:3000), so there is only a single key associated with the mode.
+# - In production, the app can be accessed through 2 different hosts:
+#   thepochisuperstarmegashow.com and exmaple.com. There then needs a 2-key hash. If you deployed to one host, only the API key would be needed (as in development and test).
+
+ # ABQIAAAA-5BtCI6LxbXoxM0LsVfK4xRGrpSbNwTG4Z5PR0jx-DY1XaYsEBT-iZeYZTsVVakuyLSG45cxUEouPg
+
+development:
+  ABQIAAAA-5BtCI6LxbXoxM0LsVfK4xTuodwy7xnMxqzgaU38fcixtjXABhR0KSwrbvD_PEDXfcN_93C05vJviw # wifi-tocke.local
+
+test:
+  ABQIAAAA-5BtCI6LxbXoxM0LsVfK4xT2yXp_ZAY8_ufC3CFXhHIE1NvwkxRyQbPcVIOOeGBgBg2oMUvoLjqcNA # localhost
+  
+production:
+  ABQIAAAA-5BtCI6LxbXoxM0LsVfK4xT6MbiqfLPQavc_9lzvHsN2Gu8W4RQoRKoVD2PKXcqOxjLfzoMFhWy3aQ # wifi-tocke.si

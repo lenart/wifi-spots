@@ -1,0 +1,8 @@
+-# %rdf:RDF{ "xmlns:rdf" => "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "xmlns:geo" => "http://www.w3.org/2003/01/geo/wgs84_pos#" }
+-#   %geo:Point
+-#     %geo:lat= @item.lat    
+-#     %geo:long= @item.lng
+    
+%meta{ :name => "geo.position", :content => @spot.latlng.join(";") }
+-#%meta{ :name => "geo.placename", :content => "Liberty Island, New York, United States" }
+-#%meta{ :name => "geo.region", :content => "us-ny" }

@@ -1,0 +1,6 @@
+- title "WiFi točke po večjih mestih"
+
+%ul
+  - @cities.each do |city|
+    %li= link_to(city.name, city)
+  

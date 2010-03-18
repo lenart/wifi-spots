@@ -1,0 +1,15 @@
+%h1= @category.name
+
+- if logged_in? and current_user.admin?
+  %p
+    = link_to "Uredi", edit_category_path(@category)
+    = link_to "Izbriši", category_path(@category), :method => :delete, :confirm => "Si prepričan, da želiš izbrisati kategorijo in vse pripadajoče zapise?"
+
+%p= @category.description
+
+= @map.div(:width => 960, :height => 300)
+
+%table
+  = render @spots
+
+= will_paginate @spots

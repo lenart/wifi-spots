@@ -1,0 +1,8 @@
+- if logged_in?
+  = link_to "Moj profil (#{current_user.full_name})", current_user
+  |
+  = link_to "Odjava", logout_path
+- else
+  = link_to "Prijava", login_path
+  |
+  = link_to "Registracija", signup_path

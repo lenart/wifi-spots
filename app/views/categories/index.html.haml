@@ -1,0 +1,8 @@
+%h1 Seznam kategorij
+
+- if current_user && current_user.admin?
+  %p= link_to "Dodaj kategorijo", new_category_path
+
+%ul
+  - @categories.each do |category|
+    = render :partial => category
