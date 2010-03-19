@@ -53,8 +53,20 @@
   - unless @spot.author.blank?
     %dt Avtor
     %dd=h @spot.author.split("@").first
-    
+
 %div.clear
 
+- if logged_in? && current_user.admin?
+  - unless @spot.versions.empty?
+    %table#versions
+      %thead
+        %tr
+          %th Verzija
+          %th Spremembe
+          %th Uporabnik
+          %th &nbsp;
+      %tbody
+        - @spot.versions.each do |version|
+          = render :partial => 'version', :object => version
 %p
   = link_to "« Nazaj na seznam", spots_path

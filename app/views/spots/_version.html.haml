@@ -1,0 +1,20 @@
+%tr
+  %td
+    = version.number
+  %td.changes
+    - version.changes.each do |field, value|
+      %p
+        %span= field
+        = value.join(' => ')
+  %td
+    - case version.user.class.to_s
+    - when "User"
+      = version.user.email
+    - else
+      = version.user
+    
+  %td
+    - if version.number == @spot.version
+      %span{:style=>'color:green;'} Trenutna različica
+    - else
+      = link_to "Nastavi za trenutno", revert_spot_path(@spot) + "?version=#{version.number}", :method => :put

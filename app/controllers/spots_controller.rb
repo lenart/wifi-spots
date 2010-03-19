@@ -2,8 +2,8 @@ class SpotsController < InheritedResources::Base
   
   # before_filter :require_user, :only => [:edit, :update, :destroy]
   # before_filter :authorize, :only => [:edit, :update, :destroy]
-  before_filter :require_admin, :only => :destroy
-  before_filter :ensure_current_spot_url, :only => :show
+  before_filter :require_admin, :only => [:revert, :destroy]
+  before_filter :ensure_friendly_url, :only => :show
   
   def index
     @spots = Spot.active.paginate :page => params[:page], :per_page => 400
@@ -80,12 +80,26 @@ class SpotsController < InheritedResources::Base
       @spot.lat = params[:lat]
       @spot.lng = params[:lng]
       @spot.zoom = params[:zoom]
-    end      
+    end
 
+    @spot.updated_by = current_user || "Neznanec (#{request.remote_ip})"
+    
     update! {
       flash[:notice] = "Podatki za WiFi točko so bili posodobljeni."
       spot_path(@spot)
     }
+  end
+  
+  def revert
+    if params[:version]
+      @spot = Spot.find params[:id]
+      @spot.updated_by = current_user
+      @spot.revert_to!(params[:version].to_i)
+      flash[:notice] = "Verzija točke zamenjana."
+    else
+      flash[:notice] = "Nepravilna verzija."
+    end
+    redirect_to @spot
   end
   
   def delete
@@ -129,16 +143,28 @@ class SpotsController < InheritedResources::Base
     end
     
     def require_admin
-      current_user && current_user.admin?
+      if current_user
+        unless current_user.admin?
+          flash[:notice] = "Nimate pravic za ogled te strani!"
+          redirect_to root_path
+          return false
+        end
+      else
+        store_location
+        flash[:notice] = "Za ogled strani morate biti prijavljeni!"
+        redirect_to login_path
+        return false
+      end
     end
    
     def collection
       @spots ||= end_of_association_chain.all.paginate :page => params[:page], :per_page => 20
     end
     
-    def ensure_current_spot_url
-      # FIXME This is unnecessary if we could call this method after inherited_resources does the magic :P
-      @spot = Spot.find params[:id]
+    def ensure_friendly_url
+      # FIXME Loading @spot is unnecessary if we could call this method after inherited_resources does the magic :P
+      #       We now probably have two Spot.find for show action
+      @spot ||= Spot.find params[:id]
       redirect_to @spot, :status => :moved_permanently unless @spot.friendly_id_status.best?
     end
   

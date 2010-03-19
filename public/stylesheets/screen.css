@@ -211,6 +211,12 @@ html > body {
 			
 		#main input.submit {
 			width:15em; }
+			
+		#main #versions { width: 100%; margin-top: 20px; }
+		#main #versions th { font-weight: bold; border-bottom: 2px solid #ccc; }
+		#main #versions td { border-bottom: 1px solid #ccc; padding: 4px 0; vertical-align: top; }
+			#main #versions td.changes p { font-size: 10px; width: auto; }
+			#main #versions td.changes span { color: blue; }
 
 #footer {
 	voice-family: "\"}\"";

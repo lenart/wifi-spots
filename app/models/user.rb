@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :spots, :dependent => :destroy
   
   def admin?
-    %w(lenart.rudel@gmail.com lenart.rudel@o2z2.com).include? self.email
+    %w(lenart.rudel@gmail.com nina.kozar@gmail.com blazek@gmail.com).include? self.email
   end
   
   def full_name

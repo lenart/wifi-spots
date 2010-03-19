@@ -4,6 +4,7 @@ class Spot < ActiveRecord::Base
   
   acts_as_mappable # :auto_geocode => { :field => :full_location }
   has_friendly_id :title, :use_slug => true, :approximate_ascii => true #, :reserved_words => RESERVED_PERMALINKS 
+  versioned
   
   before_validation :geocode_address
   
@@ -22,6 +23,10 @@ class Spot < ActiveRecord::Base
   def latlng
     [self.lat, self.lng]
   end
+  
+  def full_location
+    [location, city].join(" ").strip
+  end  
   
   def self.import_from_rss(overwrite = false)
     require 'nokogiri'
@@ -91,10 +96,6 @@ class Spot < ActiveRecord::Base
   
   private
   
-    def full_location
-      [location, city].join(" ").strip
-    end
-    
     def geocode_address
       unless self.lat && self.lng
         geo = Geokit::Geocoders::MultiGeocoder.geocode(full_location)

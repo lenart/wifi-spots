@@ -22,7 +22,7 @@ Rails::Initializer.run do |config|
   config.gem "mislav-will_paginate", :lib => 'will_paginate', :version => '>= 2.3.7', :source => 'http://gems.github.com'
   # config.gem 'thoughtbot-paperclip', :lib => 'paperclip', :source => 'http://gems.github.com'
   config.gem "geokit"
-  # config.gem 'vestal_versions'
+  config.gem 'vestal_versions', :version => ">= 1.0.2"
   config.gem "friendly_id", :version => ">= 2.3"
   
   
