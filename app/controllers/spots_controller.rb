@@ -6,16 +6,21 @@ class SpotsController < InheritedResources::Base
   before_filter :ensure_friendly_url, :only => :show
   
   def index
-    @spots = Spot.active.paginate :page => params[:page], :per_page => 400
+    @spots = Spot.active.paginate :page => params[:page], :per_page => 500
     
-    @map = initialize_google_map("map", nil, :load_icons => "icon_lost")
-    
-    markers = create_spots_markers(@spots)
-    clusterer = Clusterer.new(markers, :max_visible_markers => 10)
-    @map.overlay_init clusterer
-    
-    @center = GLatLng.new(bounding_box_center(markers))
-    @map.center_zoom_init(@center, DEFAULT_ZOOM)
+    respond_to do |format|
+      format.html do
+        @map = initialize_google_map("map", nil, :load_icons => "icon_lost")
+
+        markers = create_spots_markers(@spots)
+        clusterer = Clusterer.new(markers, :max_visible_markers => 10)
+        @map.overlay_init clusterer
+
+        @center = GLatLng.new(bounding_box_center(markers))
+        @map.center_zoom_init(@center, DEFAULT_ZOOM)
+      end
+      format.xml { render :xml => @spots }      
+    end
   end
   
   def show
