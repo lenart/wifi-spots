@@ -1,6 +1,17 @@
 - title "Seznam brezplačnih WiFi točk"
 
-%ul#main_list
-  = render @spots
-  
-= will_paginate @spots
+= render :partial => "search"
+
+- if @spots
+  - unless @search.blank?
+    %p
+      Iskalni niz: 
+      %strong= @search.query
+  %ul#main_list
+    = render @spots
+
+  = will_paginate @spots
+- else
+  %p
+    Nismo našli točk, ki bi ustrezali iskalnemu nizu
+    %strong= @search.query

@@ -20,6 +20,18 @@ class Spot < ActiveRecord::Base
   named_scope :deleted, :conditions => { :deleted => true }
   named_scope :active, :conditions => { :deleted => false }
   
+  define_index do
+    indexes title
+    indexes location, city
+    indexes ssid
+    indexes notes
+    
+    has :open, :as => 'open'
+    has lat, lng
+    
+    where "deleted=false"
+  end
+  
   def latlng
     [self.lat, self.lng]
   end

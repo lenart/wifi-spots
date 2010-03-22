@@ -6,7 +6,12 @@ class SpotsController < InheritedResources::Base
   before_filter :ensure_friendly_url, :only => :show
   
   def index
-    @spots = Spot.active.paginate :page => params[:page], :per_page => 500
+    if params[:q]
+      @search = Search.new params
+      @spots = @search.run
+    else
+      @spots = Spot.active.paginate :page => params[:page], :per_page => 500
+    end
     
     respond_to do |format|
       format.html do

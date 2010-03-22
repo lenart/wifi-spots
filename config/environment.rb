@@ -24,6 +24,7 @@ Rails::Initializer.run do |config|
   config.gem "geokit"
   config.gem 'vestal_versions', :version => ">= 1.0.2"
   config.gem "friendly_id", :version => ">= 2.3"
+  config.gem 'thinking-sphinx', :lib => 'thinking_sphinx', :version => '>=1.3.16'
   
   
   # Only load the plugins named here, in the order given (default is alphabetical).
