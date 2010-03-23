@@ -174,6 +174,32 @@ html > body {
 				-moz-text-overflow: ellipsis;
 				-webkit-text-overflow: ellipsis; }
 	
+	
+	/* Search form */
+	#main #search { text-align: center; margin-bottom: 20px; }
+	#main #search input#q {
+		padding: 4px;
+		width: 30%;
+		font-size: 12px;
+		}
+	#main #search span {
+		margin: 0 auto;
+		width: auto;
+		color: #666;
+		font-size: 0.75em;
+		display: block;
+	}
+	#main #search .btn {
+		padding: 0 8px;
+		height: 1.85em;
+		font-size: 0.9em;
+	}
+	
+	/* Frontpage */
+	#front #main h1 { text-align: center; margin-bottom: 20px; }
+	
+	
+	/* ... continue main design ... */
 	#main h2 {
 		margin-bottom:1em; }
 	

@@ -5,9 +5,19 @@ class SpotsController < InheritedResources::Base
   before_filter :require_admin, :only => [:revert, :destroy]
   before_filter :ensure_friendly_url, :only => :show
   
+  rescue_from 'Search::EmptyQuery' do
+    redirect_to(root_path, :status => 302)
+  end
+  
+  rescue_from 'Search::NoResults' do |e|
+    flash[:notice] = "Ni rezultatov, ki ustrezajo iskalnemu kriteriju: <strong>#{e.query}</strong>."
+    redirect_to(root_path)
+  end
+  
   def index
+    @search = Search.new params
+    
     if params[:q]
-      @search = Search.new params
       @spots = @search.run
     else
       @spots = Spot.active.paginate :page => params[:page], :per_page => 500

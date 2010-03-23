@@ -3,10 +3,6 @@
 = render :partial => "search"
 
 - if @spots
-  - unless @search.blank?
-    %p
-      Iskalni niz: 
-      %strong= @search.query
   %ul#main_list
     = render @spots
 

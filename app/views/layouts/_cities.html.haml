@@ -1,0 +1,21 @@
+- form_tag cities_path, :method => :get do
+  %fieldset
+    %label
+      Mesto:
+      - active = @city.cached_slug if @city
+      = select_tag 'city', options_for_select(City.all(:order => 'name asc').collect {|c| [c.name, c.cached_slug] }, active)
+    /
+      %label
+        Kategorija:
+        = select_tag 'category', options_for_select(Category.all.collect {|c| [c.name, c.id] })
+    %noscript
+      %div{:class => "noscript"}
+        = submit_tag "Potrdi"
+        
+:javascript
+  document.observe("dom:loaded", function() {
+    Event.observe($("city"), "change", function() {
+      city = $("city");
+      location.href = '#{cities_path}/' + city.getValue();
+    });
+  });

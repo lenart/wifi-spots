@@ -1,3 +1,10 @@
-- form_tag spots_path, :method => :get do
+- form_tag spots_path, :method => :get, :id => "search" do
   = text_field_tag :q, @search.query
-  = submit_tag "Poišči"
+  %span.hint
+    %strong Primer iskanja:
+    wifi blizu dunajska cesta 100
+  %br
+  = submit_tag "Poišči točke", :class => "btn", :name => nil
+  
+:javascript
+  $("q").focus();

@@ -1,8 +1,9 @@
 class PageController < ApplicationController
   
+  layout 'frontpage'
+  
   def home
-    @spots = Spot.recent
-    @cities = City.all
+    @search = Search.new params
   end
   
 end
