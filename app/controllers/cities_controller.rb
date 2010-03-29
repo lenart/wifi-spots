@@ -9,8 +9,7 @@ class CitiesController < ApplicationController
   end
 
   def show
-    @distance = params[:distance].to_i || 15
-    @distance = 30 if @distance > 30
+    @distance = params[:distance] || 30
     
     @city = City.find params[:id]
     @spots = @city.spots(:within => @distance)
