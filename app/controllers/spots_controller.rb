@@ -10,37 +10,40 @@ class SpotsController < InheritedResources::Base
   end
   
   rescue_from 'Search::NoResults' do |e|
-    flash[:notice] = "Ni rezultatov, ki ustrezajo iskalnemu kriteriju: <strong>#{e.query}</strong>."
+    flash[:notice] = "Ni rezultatov, ki ustrezajo iskalnemu kriteriju: <strong>#{e.string}</strong>."
     redirect_to(root_path)
+  end
+  
+  rescue_from 'Search::NoGeoLocation' do |e|
+    flash[:notice] = "Nismo uspeli dobiti podatkov o vnešeni lokaciji: <strong>#{e.address}</strong>."
   end
   
   def index
     @search = Search.new params
-    
-    if params[:q]
-      @spots = @search.run
-    else
-      @spots = Spot.active.paginate :page => params[:page], :per_page => 500
-    end
+    @spots = @search.run
     
     respond_to do |format|
       format.html do
-        @map = initialize_google_map("map", nil, :load_icons => "icon_lost")
+        @map = initialize_google_map("map", nil, :load_icons => "icon_spot, icon_green")
 
         markers = create_spots_markers(@spots)
-        clusterer = Clusterer.new(markers, :max_visible_markers => 10)
+        # Add reference point for geolocated search
+        markers << GMarker.new([@search.location.lat, @search.location.lng],
+                               :icon => Variable.new("icon_green"), :title => "Izhodišče iskanja") if @search.location
+
+        clusterer = Clusterer.new(markers, :max_visible_markers => 50)
         @map.overlay_init clusterer
 
-        @center = GLatLng.new(bounding_box_center(markers))
-        @map.center_zoom_init(@center, DEFAULT_ZOOM)
+        @bounds = bounding_box_corners(markers)
+        @map.center_zoom_on_bounds_init(GLatLngBounds.new(@bounds.first, @bounds.last))
       end
-      format.xml { render :xml => @spots }      
+      format.xml { render :xml => @spots }
     end
   end
   
   def show
     show! {
-      @map = initialize_google_map('map', @spot, :icon => "icon_lost", :title => @spot.title, :zoom => @spot.zoom)
+      @map = initialize_google_map('map', @spot, :icon => "icon_spot", :title => @spot.title, :zoom => @spot.zoom)
     }
   end
     

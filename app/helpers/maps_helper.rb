@@ -4,10 +4,10 @@ module MapsHelper
     raise ArgumentError, "Name of Google map can not be empty" if map_name.blank?
     
     options = {
-      :icon => 'icon_lost',
+      :icon => 'icon_spot',
       :drag => false,
       :drag_title => "Kje se nahaja WiFi točka?",
-      :load_icons => %w(icon_lost icon_found icon_home icon_drag),
+      :load_icons => %w(icon_spot icon_home),
       :capital => false,
       :zoom => ApplicationController::DEFAULT_ZOOM
     }.merge(extra_options)
@@ -16,20 +16,12 @@ module MapsHelper
     map.control_init(:small_zoom => true, :map_type => true)
     
     # Only load icons needed by map
-    if options[:load_icons].include?('icon_lost')
-      map.icon_global_init(GIcon.new(:image => "http://maps.google.com/mapfiles/ms/micons/red.png", :icon_size => GSize.new(26,26), :icon_anchor => GPoint.new(13,26), :info_window_anchor => GPoint.new(9,2)), "icon_lost")
+    if options[:load_icons].include?('icon_spot')
+      map.icon_global_init(GIcon.new(:image => "http://maps.google.com/mapfiles/ms/micons/red.png", :icon_size => GSize.new(26,26), :icon_anchor => GPoint.new(13,26), :info_window_anchor => GPoint.new(9,2)), "icon_spot")
     end
     
-    if options[:load_icons].include?('icon_found')
-      map.icon_global_init(GIcon.new(:image => "http://maps.google.com/mapfiles/ms/micons/green.png", :icon_size => GSize.new(26,26), :icon_anchor => GPoint.new(13,26), :info_window_anchor => GPoint.new(9,2)), "icon_found")
-    end
-    
-    if options[:load_icons].include?('icon_home')
-      map.icon_global_init(GIcon.new(:image => "http://maps.google.com/mapfiles/kml/pal2/icon2.png", :icon_size => GSize.new(26,26), :icon_anchor => GPoint.new(13,26), :info_window_anchor => GPoint.new(9,2)), "icon_home")
-    end
-    
-    if options[:load_icons].include?('icon_drag')
-      map.icon_global_init(GIcon.new(:image => "http://maps.google.com/mapfiles/ms/micons/blue.png", :icon_size => GSize.new(26,26), :icon_anchor => GPoint.new(13,26), :info_window_anchor => GPoint.new(14,5)), "icon_drag")
+    if options[:load_icons].include?('icon_green')
+      map.icon_global_init(GIcon.new(:image => "http://maps.google.com/mapfiles/ms/micons/green.png", :icon_size => GSize.new(26,26), :icon_anchor => GPoint.new(13,26), :info_window_anchor => GPoint.new(9,2)), "icon_green")
     end
 
     # Add draggable marker
@@ -77,20 +69,29 @@ module MapsHelper
   def create_spots_markers(spots=nil)
     raise ArgumentError, "Spots array is empty" unless spots
     
-    icon_lost = Variable.new("icon_lost")
-    icon_found = Variable.new("icon_found")
-    
+    icon_spot = Variable.new("icon_spot")
     spots_markers = []
     
     spots.each do |result|
-      icon = icon_lost
-      marker = GMarker.new(result.latlng, :icon => icon, :info_window => info_window_from_result(result), :title => result.title)
+      marker = GMarker.new(result.latlng, :icon => icon_spot, :info_window => info_window_from_result(result), :title => result.title)
       spots_markers << marker
     end
     
     return spots_markers
   end
   
+  def bounding_box_corners(markers)
+    maxlat, maxlng, minlat, minlng = -Float::MAX, -Float::MAX, Float::MAX, Float::MAX
+    markers.each do |marker|
+      coord = marker.point
+      maxlat = coord.lat if coord.lat > maxlat
+      minlat = coord.lat if coord.lat < minlat
+      maxlng = coord.lng if coord.lng > maxlng
+      minlng = coord.lng if coord.lng < minlng
+    end
+
+    return [GLatLng.new([minlat, minlng]),GLatLng.new([maxlat, maxlng])]
+  end
   
   def bounding_box_center(markers)
     maxlat, maxlng, minlat, minlng = -Float::MAX, -Float::MAX, Float::MAX, Float::MAX

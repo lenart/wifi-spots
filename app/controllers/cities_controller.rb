@@ -9,21 +9,23 @@ class CitiesController < ApplicationController
   end
 
   def show
-    @distance = params[:distance] || 15
+    @distance = params[:distance].to_i || 15
+    @distance = 30 if @distance > 30
     
     @city = City.find params[:id]
     @spots = @city.spots(:within => @distance)
     
     respond_to do |format|
       format.html do
-        @map = initialize_google_map("map", nil, :load_icons => "icon_lost")
+        @map = initialize_google_map("map", nil, :load_icons => "icon_spot, icon_green")
 
         markers = create_spots_markers(@spots)
-        clusterer = Clusterer.new(markers, :max_visible_markers => 20)
+        markers << GMarker.new(@city.latlng, :icon => Variable.new("icon_green"), :title => "Izhodišče iskanja")
+        clusterer = Clusterer.new(markers, :max_visible_markers => 50)
         @map.overlay_init clusterer
 
-        @center = GLatLng.new(bounding_box_center(markers))
-        @map.center_zoom_init(@center, DEFAULT_ZOOM + 3)
+        @bounds = bounding_box_corners(markers)
+        @map.center_zoom_on_bounds_init(GLatLngBounds.new(@bounds.first, @bounds.last))
       end
       format.xml  { render :xml => @spots }
     end
