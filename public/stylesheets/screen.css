@@ -195,9 +195,26 @@ html > body {
 		font-size: 0.9em;
 	}
 	
+	#main .info {
+		margin: 0 auto;
+		margin-bottom: 30px;
+		padding: 10px;
+		border: 1px solid #008de7;
+		background-color: #f7f7f7;
+		text-align: center;
+	}
+	
 	/* Frontpage */
 	#front #main h1 { text-align: center; margin-bottom: 20px; }
 	
+	.pagination {
+		margin-top: 20px;
+		text-align: center;
+	}
+		.pagination span,
+		.pagination a {
+			padding: 5px 8px;
+		}
 	
 	/* ... continue main design ... */
 	#main h2 {

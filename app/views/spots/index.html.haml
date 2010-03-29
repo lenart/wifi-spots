@@ -2,6 +2,12 @@
 
 = render :partial => "search"
 
+.info
+  = "Število najdenih točk: " + @spots.total_entries.to_s
+  - if @search.location
+    |
+    = "Razdalja od iskane lokacije: " + @search.radius.to_s + " km"
+
 - if @spots
   %ul#main_list
     = render @spots

@@ -1,36 +1,105 @@
 class Search
   
-  attr_reader :query, :page
+  include Geokit::Geocoders
+  
+  MAX_SEARCH_RADIUS = 20
+  PER_PAGE = 50
+  
+  # => @string user search query
+  # => @distance used for user-defined search radius; internaly we use radius()
+  # => @page used internaly for pagination
+  # => radius() ensures user-defined radius is never bigger than MAX_SEARCH_RADIUS
+  # => @address is extracted from @string and geo-located using GeoKit
+  # => @location holds geo location (after search is run)
+  
+  CITIES = [
+    ["ce", "celje"],
+    ["kp", "koper"],
+    ["kr", "kranj"],
+    ["lj", "ljubljana"],
+    ["mb","maribor"],
+    ["ms", "murska sobota"],
+    ["nm", "novo mesto"],
+    ["po", "postojna"],
+    ["ravne", "ravne na koroškem"],
+    ["ve", "velenje"]
+  ]
+  
+  NORMALIZATIONS = [
+    ["wi-fi", "wifi"],
+    ["internet", "wifi"],
+    ["net", "wifi"],
+    ["inet", "wifi"]
+    # ["pri", "blizu"]  # This can appear in Spot.title!
+  ]
+  
+  attr_reader :page, :location, :address
+  attr_accessor :string, :distance
   
   def initialize(params)
-    @query = params[:q]
+    @string = @query = params[:q].to_s
     @page = (params[:page] || 1).to_i
+    @address = @location = nil
+    @distance = params[:distance] || 5
   end
   
   def blank?
     @query.blank?
   end
   
+  def radius
+    (@distance.to_i > MAX_SEARCH_RADIUS) ? MAX_SEARCH_RADIUS.to_i : @distance.to_i
+  end
+  
+  def query
+    normalize
+  end
+  
   def run
-    # Application-wide search
-    # ThinkingSphinx.search @query, :classes => [Spot, Comment]
     raise Search::EmptyQuery if self.blank?
+    geocode
     
-    results = Spot.search @query, :page => @page, :per_page => 20
+    if @location
+      logger "Searching for spots: #{@query} near [#{@location.lat}, #{@location.lng}]"
+      results = Spot.find_within(self.radius, :origin => [@location.lat, @location.lng]).paginate :page => @page, :per_page => PER_PAGE
+    else
+      logger "Searching for spots: #{@query}"
+      results = Spot.search @query, :page => @page, :per_page => PER_PAGE
+    end
+    
     raise Search::NoResults.new(self.query) if results.empty?
-    
     results
   end
   
-  private
+  # private
+
+    def geocode
+      @address = self.query.scan(/wifi blizu (.+)/).flatten.to_s
+      return if @address.blank?
+      @query = self.query.scan(/^(.+) wifi blizu/).flatten.to_s
+
+      logger "Geocoding address: #{@address.to_s}"
+      @location = Geokit::Geocoders::MultiGeocoder.geocode(@address + ", slovenija")
+      raise Search::NoGeoLocation.new(@address) unless @location.success
+    end
   
     def normalize
-      # TODO Search for "/wifi blizu (.+)/" and preform geo search
-      #      change lj => ljubljana, ce => celje etc.
-      #      change %w(wi-fi net internet) => wifi
+      returning @query.downcase do |q|
+        q.strip!
+
+        NORMALIZATIONS.each do |replacement|
+          q.gsub!(/\b#{replacement.first}\b/, replacement.last)
+        end
+    
+        CITIES.each do |replacement|
+          q.gsub!(/\b#{replacement.first}\b/, replacement.last)
+        end
+      end
     end
   
 end
+
+
 
 class Search::EmptyQuery < ArgumentError
   def initialize
@@ -43,4 +112,14 @@ class Search::NoResults < RangeError
   def initialize(query)
     @query = query
   end
+end
+
+class Search::NoGeoLocation < RangeError
+  def initialize(address)
+    Rails.logger.warn "Unable to geocode address #{address}"
+  end
+end
+
+def logger(message)
+  Rails.logger.info message
 end

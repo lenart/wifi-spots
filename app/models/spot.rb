@@ -2,7 +2,9 @@ class Spot < ActiveRecord::Base
   
   # RESERVED_PERMALINKS = %w(spot spots city cities admin login logout signup)
   
-  acts_as_mappable # :auto_geocode => { :field => :full_location }
+  acts_as_mappable :default_units => :kms,
+                   :default_formula => :sphere
+  
   has_friendly_id :title, :use_slug => true, :approximate_ascii => true #, :reserved_words => RESERVED_PERMALINKS 
   versioned
   
@@ -27,8 +29,8 @@ class Spot < ActiveRecord::Base
     indexes notes
     
     has :open, :as => 'open'
+
     has lat, lng
-    
     where "deleted=false"
   end
   
