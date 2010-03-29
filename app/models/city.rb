@@ -14,7 +14,7 @@ class City < ActiveRecord::Base
   def spots(options = {})
     defaults = { :within => 15 }.merge!(options)
     
-    Spot.find(:all, :origin => [self.lat, self.lng], :within => defaults[:within], :order => 'distance')
+    Spot.find(:all, :origin => [self.lat, self.lng], :conditions => defaults[:conditions], :within => defaults[:within], :order => 'distance')
   end
   
 end

@@ -12,7 +12,7 @@ class CitiesController < ApplicationController
     @distance = params[:distance] || 30
     
     @city = City.find params[:id]
-    @spots = @city.spots(:within => @distance)
+    @spots = @city.spots(:conditions => {:deleted=>false}, :within => @distance)
     
     respond_to do |format|
       format.html do
