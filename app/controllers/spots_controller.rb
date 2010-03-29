@@ -10,7 +10,7 @@ class SpotsController < InheritedResources::Base
   end
   
   rescue_from 'Search::NoResults' do |e|
-    flash[:notice] = "Ni rezultatov, ki ustrezajo iskalnemu kriteriju: <strong>#{e.string}</strong>."
+    flash[:notice] = "Ni rezultatov, ki ustrezajo iskalnemu kriteriju: <strong>#{e.query}</strong>."
     redirect_to(root_path)
   end
   

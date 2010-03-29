@@ -67,7 +67,7 @@ class Search
       results = Spot.search @query, :page => @page, :per_page => PER_PAGE
     end
     
-    raise Search::NoResults.new(self.query) if results.empty?
+    raise Search::NoResults.new(self.string) if results.empty?
     results
   end
   
