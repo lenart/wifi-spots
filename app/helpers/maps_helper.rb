@@ -7,7 +7,7 @@ module MapsHelper
       :icon => 'icon_spot',
       :drag => false,
       :drag_title => "Kje se nahaja WiFi točka?",
-      :load_icons => %w(icon_spot icon_home),
+      :load_icons => %w(icon_spot icon_green icon_drag),
       :capital => false,
       :zoom => ApplicationController::DEFAULT_ZOOM
     }.merge(extra_options)
@@ -22,6 +22,10 @@ module MapsHelper
     
     if options[:load_icons].include?('icon_green')
       map.icon_global_init(GIcon.new(:image => "http://maps.google.com/mapfiles/ms/micons/green.png", :icon_size => GSize.new(26,26), :icon_anchor => GPoint.new(13,26), :info_window_anchor => GPoint.new(9,2)), "icon_green")
+    end
+    
+    if options[:load_icons].include?('icon_drag')
+      map.icon_global_init(GIcon.new(:image => "http://maps.google.com/mapfiles/ms/micons/blue.png", :icon_size => GSize.new(26,26), :icon_anchor => GPoint.new(13,26), :info_window_anchor => GPoint.new(14,5)), "icon_drag")
     end
 
     # Add draggable marker
