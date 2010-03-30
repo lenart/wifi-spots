@@ -2,5 +2,10 @@
 
 = render :partial => "/spots/search"
 
-%p{:style => "margin:0 auto; margin-top: 40px; text-align:center;"}
+%p{:style => "margin:0 auto; width: auto; margin-top: 20px; text-align:center;"}
+  Za iskanje po naslovu/mestu morate dopisati besedico
+  %strong blizu.
+  %br
+  Imena ulic in mest ne sklanjajte!
+%p{:style => "margin:0 auto; margin-top: 20px; text-align:center;"}
   = link_to "Vpiši novo točko", new_spot_path

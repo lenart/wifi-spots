@@ -40,7 +40,7 @@ class Search
     @string = @query = params[:q].to_s
     @page = (params[:page] || 1).to_i
     @address = @location = nil
-    @distance = params[:distance] || 5
+    @distance = params[:distance] || 2
   end
   
   def blank?
@@ -74,9 +74,9 @@ class Search
   # private
 
     def geocode
-      @address = self.query.scan(/wifi blizu (.+)/).flatten.to_s
+      @address = self.query.scan(/blizu (.+)/).flatten.to_s
       return if @address.blank?
-      @query = self.query.scan(/^(.+) wifi blizu/).flatten.to_s
+      @query = self.query.scan(/^(.+) blizu/).flatten.to_s
 
       logger "Geocoding address: #{@address.to_s}"
       @location = Geokit::Geocoders::MultiGeocoder.geocode(@address + ", slovenija")

@@ -1,9 +1,9 @@
 - form_tag spots_path, :method => :get, :id => "search" do
-  = hidden_field_tag :distance, 5
+  = hidden_field_tag :distance, 1
   = text_field_tag :q, @search.query
   %span.hint
     %strong Primer iskanja:
-    wifi blizu dunajska cesta 100
+    blizu dunajska cesta 100
   %br
   = submit_tag "Poišči točke", :class => "btn", :name => nil
   
