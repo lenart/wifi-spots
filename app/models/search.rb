@@ -57,9 +57,10 @@ class Search
   
   def run
     raise Search::EmptyQuery if self.blank?
-    geocode
     
-    if @location
+    @location = Geokit::Geocoders::MultiGeocoder.geocode(@query + ", slovenija")
+      
+    if @location.success
       logger "Searching for spots: #{@query} near [#{@location.lat}, #{@location.lng}]"
       results = Spot.find(:all, :conditions => ["distance < ? AND deleted=false", self.radius], :origin => [@location.lat, @location.lng], :order => "distance asc").paginate :page => @page, :per_page => PER_PAGE
     else
@@ -71,7 +72,7 @@ class Search
     results
   end
   
-  # private
+  private
 
     def geocode
       @address = self.query.scan(/blizu (.+)/).flatten.to_s

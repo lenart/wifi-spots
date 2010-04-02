@@ -20,16 +20,17 @@ class SpotsController < InheritedResources::Base
   
   def index
     @search = Search.new params
-    @spots = @search.run
+    @spots = @search.run # we don't want anyone to access index without search string
     
     respond_to do |format|
       format.html do
         @map = initialize_google_map("map", nil, :load_icons => "icon_spot, icon_green")
 
         markers = create_spots_markers(@spots)
+        
         # Add reference point for geolocated search
         markers << GMarker.new([@search.location.lat, @search.location.lng],
-                               :icon => Variable.new("icon_green"), :title => "Izhodišče iskanja") if @search.location
+                               :icon => Variable.new("icon_green"), :title => "Izhodišče iskanja") if @search.location.success
 
         clusterer = Clusterer.new(markers, :max_visible_markers => 50)
         @map.overlay_init clusterer
