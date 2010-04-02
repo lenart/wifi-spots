@@ -11,7 +11,8 @@
   
 %p{:style => "margin:0 auto; margin-top: 20px; text-align:center;"}
   = link_to "Vpiši novo točko", new_spot_path
-  
-%ul
-- Spot.recent.each do |spot|
-  %li= link_to spot.title, spot
+
+%h3{:style => "margin: 10px 0 20px 6px; padding-bottom: 4px; border-bottom: 1px solid #ccc;"} Sveže vnešene
+%ul#main_list
+  - Spot.recent.each do |spot|
+    = render spot
