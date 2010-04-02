@@ -2,7 +2,9 @@
 - keywords "#{@spot.title}, wifi točka, brezžično omrežje, brezplačna točka, brezplačen internet, dostop do interneta, wi-fi, wireless"
 - description "Brezplačna WiFi točka: #{@spot.title} - #{@spot.notes}"
 
-%h2=h @spot.title
+%h2
+  =h @spot.title
+  = " (izbrisana)" if @spot.deleted?
 
 %div.geo
   %span.latitude= @spot.lat
@@ -12,10 +14,24 @@
   = link_to "Uredi podatke", edit_spot_path(@spot), :rel => :nofollow
   - if logged_in? && (current_user == @spot.user || current_user.admin?)
     |
-    = link_to "Izbriši", delete_spot_path(@spot), :method => :delete, :confirm => "Si prepričan da želiš odstraniti točko?"
+    - if @spot.deleted?
+      = link_to "Restore", restore_spot_path(@spot), :method => :put
+    - else
+      = link_to_function "Izbriši", "$('delete').show()"
     |
     = link_to "Izbriši (iz baze)", spot_path(@spot), :method => :delete, :confirm => "Si prepričan da želiš popolnoma odstraniti točko? Undo ne obstaja!"
-    
+
+- unless @spot.deleted?
+  #delete{:style => "display:none;"}
+    - # Unfortunately forms only know :get and :post methods
+    - form_for @spot, :url => delete_spot_path(@spot) do |form|
+      = form.label :reason, "Razlog za izbris"
+      %br
+      = form.text_area :reason, :rows => 5
+      %br
+      = form.submit "Potrdi izbris"
+      =# link_to "Potrdi izbris", delete_spot_path(@spot), :method => :delete, :confirm => "Si prepričan da želiš odstraniti točko?"
+
 %dl
   %dt Kategorija
   %dd= @spot.category.name
@@ -44,7 +60,7 @@
 %dl
   - unless @spot.url.blank?
     %dt Spletna stran
-    %dd= link_to @spot.url, @spot.url, :target => '_blank'
+    %dd= link_to @spot.url, @spot.url, :target => '_blank', :rel => :nofollow
   
   - unless @spot.notes.blank?
     %dt Opis
@@ -58,9 +74,16 @@
 
 - if logged_in? && current_user.admin?
   %dl
+    %dt ID
+    %dd= @spot.id
+    
     %dt Permalink
     %dd= @spot.permalink
-    
+
+    - if @spot.deleted?
+      %dt Razlog za izbris
+      %dd= @spot.reason    
+
   - unless @spot.versions.empty?
     %table#versions
       %thead

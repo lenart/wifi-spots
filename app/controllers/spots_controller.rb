@@ -113,6 +113,7 @@ class SpotsController < InheritedResources::Base
     }
   end
   
+  # Revert to an earlier spot version
   def revert
     if params[:version]
       @spot = Spot.find params[:id]
@@ -125,11 +126,25 @@ class SpotsController < InheritedResources::Base
     redirect_to @spot
   end
   
+  # Undelete spot
+  def restore
+    @spot = Spot.find params[:id]
+    @spot.restore
+    flash[:notice] = "Točka ni več izbrisana."
+    redirect_to @spot
+  end
+  
   def delete
     @spot = Spot.find params[:id]
-    @spot.delete
-    flash[:notice] = "WiFi točka je bila odstranjena!"
-    redirect_to spots_path
+    @spot.delete(params[:spot][:reason])
+    
+    if @spot.valid?
+      flash[:notice] = "WiFi točka je bila odstranjena!"
+      redirect_to spots_path
+    else
+      flash[:error] = "Za izbris moraš navesti razlog."
+      redirect_to @spot
+    end
   end
   
   def destroy

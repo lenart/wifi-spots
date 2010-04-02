@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/home', :controller => 'page', :action => 'home'
 
   map.resources :categories
-  map.resources :spots, :collection => { :import => :post }, :member => { :delete => :delete, :revert => :put }
+  map.resources :spots, :collection => { :import => :post }, :member => { :delete => :put, :revert => :put, :restore => :put }
   
   map.resources :cities
                         

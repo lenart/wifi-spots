@@ -15,6 +15,7 @@ class Spot < ActiveRecord::Base
   
   validates_presence_of :title
   validates_presence_of :category
+  validates_presence_of :reason, :unless => Proc.new { |spot| spot.deleted == false }
   
   validates_uniqueness_of :permalink, :allow_blank => true
   
@@ -94,8 +95,12 @@ class Spot < ActiveRecord::Base
     puts "Import completed. Done!"
   end
   
-  def delete
-    self.update_attribute(:deleted, true)
+  def restore
+    self.update_attributes({:deleted => false, :reason => nil})
+  end
+  
+  def delete(reason)
+    self.update_attributes({:deleted => true, :reason => reason})
   end
   
   def destroy!

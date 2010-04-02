@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100319065405) do
+ActiveRecord::Schema.define(:version => 20100402173634) do
 
   create_table "categories", :force => true do |t|
     t.string   "name",        :limit => 50
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(:version => 20100319065405) do
     t.string   "key",         :limit => 50
     t.string   "author"
     t.string   "cached_slug"
+    t.string   "reason"
   end
 
   add_index "spots", ["cached_slug"], :name => "index_spots_on_cached_slug"
