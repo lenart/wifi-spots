@@ -2,6 +2,7 @@ log/*
 tmp/*
 tmp/**/*
 config/database.yml
+config/development.sphinx.conf
 files/*
 lib/data/*
 db/sphinx/*

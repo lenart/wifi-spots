@@ -12,7 +12,7 @@ require 'thinking_sphinx/tasks'
 
 begin
   require 'vlad'
-  Vlad.load :scm => :git
+  Vlad.load :app => nil, :scm => :git
 rescue LoadError
   puts 'Could not load Vlad (in Rakefile)'
 end
