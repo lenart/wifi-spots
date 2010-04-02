@@ -2,7 +2,6 @@ log/*
 tmp/*
 tmp/**/*
 config/database.yml
-config/deploy.rb
 files/*
 lib/data/*
 db/sphinx/*
