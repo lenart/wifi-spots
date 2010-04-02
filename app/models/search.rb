@@ -61,7 +61,7 @@ class Search
     
     if @location
       logger "Searching for spots: #{@query} near [#{@location.lat}, #{@location.lng}]"
-      results = Spot.find(:all, :conditions => ["distance < ? AND deleted=false", self.radius], :origin => [@location.lat, @location.lng]).paginate :page => @page, :per_page => PER_PAGE
+      results = Spot.find(:all, :conditions => ["distance < ? AND deleted=false", self.radius], :origin => [@location.lat, @location.lng], :order => "distance asc").paginate :page => @page, :per_page => PER_PAGE
     else
       logger "Searching for spots: #{@query}"
       results = Spot.search @query, :with => {:deleted => false}, :page => @page, :per_page => PER_PAGE
