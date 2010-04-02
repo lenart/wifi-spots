@@ -14,6 +14,8 @@ class CitiesController < ApplicationController
     @city = City.find params[:id]
     @spots = @city.spots(:conditions => {:deleted=>false}, :within => @distance)
     
+    @search = Search.new params
+    
     respond_to do |format|
       format.html do
         @map = initialize_google_map("map", nil, :load_icons => "icon_spot, icon_green")
