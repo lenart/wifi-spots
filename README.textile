@@ -9,7 +9,6 @@ h3. To-do list
 * switch to version 3 of Google Maps API
 * users can confirm that a wifi signal exists at the location
 * add reason when item is "deleted"
-* search by spot title & description
-* search by users geolocation
 * add a slider for distance/range on cities view
 * make views for mobile phones
+* get users geo-location from browser (Firefox, Safari, Opera)

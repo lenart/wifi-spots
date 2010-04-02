@@ -57,6 +57,10 @@
 %div.clear
 
 - if logged_in? && current_user.admin?
+  %dl
+    %dt Permalink
+    %dd= @spot.permalink
+    
   - unless @spot.versions.empty?
     %table#versions
       %thead

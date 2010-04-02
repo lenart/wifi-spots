@@ -1,6 +1,6 @@
 - form_tag spots_path, :method => :get, :id => "search" do
   = hidden_field_tag :distance, 1
-  = text_field_tag :q, @search.query
+  = text_field_tag :q, @search.string
   %span.hint
     %strong Primer iskanja:
     blizu dunajska cesta 100

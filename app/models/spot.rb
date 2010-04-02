@@ -18,19 +18,18 @@ class Spot < ActiveRecord::Base
   
   validates_uniqueness_of :permalink, :allow_blank => true
   
-  named_scope :recent, :order => "created_at DESC", :limit => 10
+  named_scope :recent, :order => "created_at DESC", :limit => 10, :conditions => { :deleted => false }
   named_scope :deleted, :conditions => { :deleted => true }
   named_scope :active, :conditions => { :deleted => false }
   
   define_index do
     indexes title
     indexes location, city
-    indexes ssid
+    indexes ssid, key
     indexes notes
     
-    has :open, :as => 'open'
-
-    has lat, lng
+    has :open, :as => 'open' # should be written like this open is reserved by ruby
+    has lat, lng, deleted
     where "deleted=false"
   end
   

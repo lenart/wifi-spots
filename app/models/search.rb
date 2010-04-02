@@ -61,10 +61,10 @@ class Search
     
     if @location
       logger "Searching for spots: #{@query} near [#{@location.lat}, #{@location.lng}]"
-      results = Spot.find_within(self.radius, :origin => [@location.lat, @location.lng]).paginate :page => @page, :per_page => PER_PAGE
+      results = Spot.find(:all, :conditions => ["distance < ? AND deleted=false", self.radius], :origin => [@location.lat, @location.lng]).paginate :page => @page, :per_page => PER_PAGE
     else
       logger "Searching for spots: #{@query}"
-      results = Spot.search @query, :page => @page, :per_page => PER_PAGE
+      results = Spot.search @query, :with => {:deleted => false}, :page => @page, :per_page => PER_PAGE
     end
     
     raise Search::NoResults.new(self.string) if results.empty?
