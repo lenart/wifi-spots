@@ -10,6 +10,23 @@ set :repository, "git@github.com:lenart/wifi-spots.git"
 
 set :mongrel_conf, "#{deploy_to}/current/config/mongrel_cluster.yml"
 
+#
+# Mongrel configuration
+#
+# set :mongrel_clean,         true
+# set :mongrel_command,       'mongrel_rails'
+# set :mongrel_group,         'www-data'
+# set :mongrel_port,          9000
+# set :mongrel_servers,       3
+# set :mongrel_address,       '127.0.0.1'
+# set(:mongrel_conf)          { '#{shared_path}/mongrel_cluster.conf' }
+# set :mongrel_config_script, nil
+# set :mongrel_environment,   'production'
+# set :mongrel_log_file,      nil
+# set :mongrel_pid_file,      nil
+# set :mongrel_prefix,        nil
+# set :mongrel_user,          'mongrel'
+
 namespace :vlad do
 
   remote_task :start, :roles => :web do
@@ -39,7 +56,7 @@ namespace :vlad do
     Rake::Task['vlad:update'].invoke
     Rake::Task['vlad:symlink_config'].invoke
     Rake::Task['vlad:migrate'].invoke
-    Rake::Task['vlad:start_app'].invoke
+    Rake::Task['vlad:restart'].invoke
     Rake::Task['vlad:cleanup'].invoke
 
     # Sphinx setup
