@@ -3,10 +3,12 @@ class Spot < ActiveRecord::Base
   # RESERVED_PERMALINKS = %w(spot spots city cities admin login logout signup)
   
   acts_as_mappable :default_units => :kms,
-                   :default_formula => :sphere
-  
-  has_friendly_id :title, :use_slug => true, :approximate_ascii => true #, :reserved_words => RESERVED_PERMALINKS 
+                   :default_formula => :sphere  
   versioned
+  
+  has_friendly_id :title,
+                  :use_slug => true,
+                  :approximate_ascii => true #, :reserved_words => RESERVED_PERMALINKS 
   
   before_validation :geocode_address
   
@@ -98,11 +100,15 @@ class Spot < ActiveRecord::Base
   end
   
   def restore
-    self.update_attributes({:deleted => false, :reason => nil})
+    skip_version do
+      update_attributes({:deleted => false, :reason => nil})
+    end
   end
   
   def delete(reason)
-    self.update_attributes({:deleted => true, :reason => reason})
+    skip_version do
+      update_attributes({:deleted => true, :reason => reason})
+    end
   end
   
   def destroy!

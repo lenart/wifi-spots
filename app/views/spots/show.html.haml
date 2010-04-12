@@ -82,8 +82,8 @@
 
     - if @spot.deleted?
       %dt Razlog za izbris
-      %dd= @spot.reason    
-
+      %dd= @spot.reason
+  
   - unless @spot.versions.empty?
     %table#versions
       %thead
@@ -95,5 +95,5 @@
       %tbody
         - @spot.versions.each do |version|
           = render :partial => 'version', :object => version
-%p
+%p.clear
   = link_to "« Nazaj na seznam", spots_path

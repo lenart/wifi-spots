@@ -23,7 +23,7 @@ Rails::Initializer.run do |config|
   # config.gem 'thoughtbot-paperclip', :lib => 'paperclip', :source => 'http://gems.github.com'
   config.gem "geokit"
   config.gem 'vestal_versions', :version => ">= 1.0.2"
-  config.gem "friendly_id", :version => ">= 2.3"
+  config.gem "friendly_id", :version => ">= 3.0.2"
   config.gem 'thinking-sphinx', :lib => 'thinking_sphinx', :version => '>=1.3.16'
   
   

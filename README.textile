@@ -6,9 +6,18 @@ This is the source code for the Slovenian Ruby on Rails project "wifi-tocke.si":
 
 h3. To-do list
 
+* before a spot is added check for similar entries and warn about possible duplicates
 * switch to version 3 of Google Maps API
 * users can confirm that a wifi signal exists at the location
-* add reason when item is "deleted"
 * add a slider for distance/range on cities view
 * make views for mobile phones
 * get users geo-location from browser (Firefox, Safari, Opera)
+* add delicious-style tagging (beer, sandwich, icecream, room, ...)
+
+h3. Authors
+
+Jasna Suhadolc, idea | http://twitter.com/jasna
+Nina Kožar, idea | http://twitter.com/opica
+Blaž Galič, idea | http://twitter.com/Blaziek
+Dusan Smolnikar, design | http://dusan.fora.si/
+Lenart Rudel, idea & programming | http://twitter.com/lenartr
