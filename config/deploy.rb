@@ -46,7 +46,7 @@ namespace :vlad do
   
   desc "Symlinks the configuration files"
   remote_task :symlink_config, :roles => :web do
-    %w(database.yml mongrel_cluster.yml).each do |file|
+    %w(database.yml mongrel_cluster.yml production.sphinx.conf).each do |file|
       run "ln -s #{shared_path}/config/#{file} #{current_path}/config/#{file}"
     end
   end
@@ -60,7 +60,7 @@ namespace :vlad do
     Rake::Task['vlad:cleanup'].invoke
 
     # Sphinx setup
-    Rake::Task['ts:conf'].invoke
+    # Rake::Task['ts:conf'].invoke
     Rake::Task['ts:index'].invoke
   end
 end
