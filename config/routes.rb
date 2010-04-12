@@ -1,17 +1,16 @@
 ActionController::Routing::Routes.draw do |map|
   # map.root :controller => 'spots', :action => 'index'
+  map.root :controller => 'page', :action => 'home' 
   
   map.connect '/home', :controller => 'page', :action => 'home'
 
-  map.resources :categories, :as => 'kategorija'
+  map.resources :categories, :as => 'kategorije'
   
-  map.resources :spots, :as => 'tocka',
+  map.resources :spots, :as => 'tocke',
                 :collection => { :import => :post },
                 :member => { :delete => :put, :revert => :put, :restore => :put }
   
-  map.resources :cities, :as => 'mesto'
-
-  map.root :controller => 'page', :action => 'home' 
+  map.resources :cities, :as => 'mesta'
                         
   map.resources :users, :member => { :contact => :any }
   map.resources :user_sessions
