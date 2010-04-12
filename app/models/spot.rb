@@ -23,6 +23,8 @@ class Spot < ActiveRecord::Base
   named_scope :deleted, :conditions => { :deleted => true }
   named_scope :active, :conditions => { :deleted => false }
   
+  named_scope :invalid, :conditions => ["lat=? AND lng=?", ApplicationController::DEFAULT_LAT, ApplicationController::DEFAULT_LNG]
+  
   define_index do
     indexes title
     indexes location, city
@@ -106,7 +108,6 @@ class Spot < ActiveRecord::Base
   def destroy!
     self.destroy
   end
-  
 
 ###########################
 # PRIVATE
