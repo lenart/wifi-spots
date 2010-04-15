@@ -10,8 +10,14 @@ class SpotsController < InheritedResources::Base
   end
   
   rescue_from 'Search::NoResults' do |e|
-    flash[:notice] = "Ni rezultatov, ki ustrezajo iskalnemu kriteriju: <strong>#{e.query}</strong>."
-    redirect_to(root_path)
+    unless e.geo_search
+      flash[:notice] = "Ni rezultatov, ki ustrezajo iskalnemu kriteriju: <strong>#{e.query}</strong>."
+      redirect_to(root_path)
+    else
+      flash[:notice] = "<strong>Opozorilo:</strong> Niz <strong>#{e.query}</strong> smo poskusili geolocirati vendar iskanje ni vrnilo rezultatov. Poskušam še iskanje brez geolokacije."
+      flash.keep
+      redirect_to(spots_path + "?q=#{e.query}&geo=false")
+    end
   end
   
   rescue_from 'Search::NoGeoLocation' do |e|
@@ -30,7 +36,7 @@ class SpotsController < InheritedResources::Base
         
         # Add reference point for geolocated search
         markers << GMarker.new([@search.location.lat, @search.location.lng],
-                               :icon => Variable.new("icon_green"), :title => "Izhodišče iskanja") if @search.location.success
+                               :icon => Variable.new("icon_green"), :title => "Izhodišče iskanja") if @search.location && @search.location.success
 
         clusterer = Clusterer.new(markers, :max_visible_markers => 50)
         @map.overlay_init clusterer

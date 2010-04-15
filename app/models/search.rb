@@ -34,13 +34,14 @@ class Search
   ]
   
   attr_reader :page, :location, :address
-  attr_accessor :string, :distance
+  attr_accessor :string, :distance, :geo_search
   
   def initialize(params)
     @string = @query = params[:q].to_s
     @page = (params[:page] || 1).to_i
     @address = @location = nil
     @distance = params[:distance] || 2
+    @geo_search = params[:geo].blank? ? true : false
   end
   
   def blank?
@@ -58,9 +59,11 @@ class Search
   def run
     raise Search::EmptyQuery if self.blank?
     
-    @location = Geokit::Geocoders::MultiGeocoder.geocode(@query + ", slovenija")
+    if @geo_search
+      @location = Geokit::Geocoders::MultiGeocoder.geocode(@query + ", slovenija")
+    end
       
-    if @location.success
+    if @location && @location.success
       logger "Searching for spots: #{@query} near [#{@location.lat}, #{@location.lng}]"
       results = Spot.find(:all, :conditions => ["distance < ? AND deleted=false", self.radius], :origin => [@location.lat, @location.lng], :order => "distance asc").paginate :page => @page, :per_page => PER_PAGE
     else
@@ -68,7 +71,7 @@ class Search
       results = Spot.search @query, :with => {:deleted => false}, :page => @page, :per_page => PER_PAGE
     end
     
-    raise Search::NoResults.new(self.string) if results.empty?
+    raise Search::NoResults.new(self.string, self.geo_search) if results.empty?
     results
   end
   
@@ -109,9 +112,10 @@ class Search::EmptyQuery < ArgumentError
 end
 
 class Search::NoResults < RangeError
-  attr_reader :query
-  def initialize(query)
+  attr_reader :query, :geo_search
+  def initialize(query, geo_search)
     @query = query
+    @geo_search = geo_search
   end
 end
 
