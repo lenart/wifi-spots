@@ -20,10 +20,14 @@ ActionController::Routing::Routes.draw do |map|
   map.logout '/logout', :controller => 'user_sessions', :action => 'destroy'  
   
   # Support old routes
+  map.connect '/cities', :controller => 'cities', :action => 'index'
+  map.connect '/categories', :controller => 'categories', :action => 'index'
+  map.connect '/spots', :controller => 'spots', :action => 'index'
+  
   map.connect '/spots/:id', :controller => 'spots', :action => 'show', :id => :id
   map.connect '/cities/:id', :controller => 'cities', :action => 'show', :id => :id
   map.connect '/categories/:id', :controller => 'categories', :action => 'show', :id => :id
-
+  
   # map.connect ':controller/:action/:id'
   # map.connect ':controller/:action/:id.:format'
 end

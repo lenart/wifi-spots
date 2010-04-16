@@ -10,6 +10,7 @@ class SpotsController < InheritedResources::Base
   end
   
   rescue_from 'Search::NoResults' do |e|
+    # TODO Ce v bliznji okolici ni tock, potem ni nujno da je napacna geolokacija (primer: kotlje)
     unless e.geo_search
       flash[:notice] = "Ni rezultatov, ki ustrezajo iskalnemu kriteriju: <strong>#{e.query}</strong>."
       redirect_to(root_path)
