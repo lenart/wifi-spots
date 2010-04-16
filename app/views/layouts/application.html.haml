@@ -11,17 +11,17 @@
       Dusan Smolnikar, design | http://dusan.fora.si/
       Lenart Rudel, programming | http://twitter.com/lenartr
       Nina Kožar, Blaž Galič, idea & copy
-    
+
     = stylesheet_link_merged :base
     = javascript_include_merged :base
 
-    - if @spot
-      = render :partial => "spots/geo_header"
-    
     - if @map
       = GMap.header(:with_vml => false)
       = javascript_include_merged :maps
       = @map.to_html
+
+    - if @spot
+      = render :partial => "spots/geo_header"
 
 
   %body

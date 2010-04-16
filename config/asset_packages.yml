@@ -5,12 +5,12 @@ javascripts:
   - effects
   - dragdrop
   - controls
-  - clusterer
   - application
 - maps:
+  - clusterer
+  - geoRssOverlay
   - ym4r-gm
   - wms-gs
-  - geoRssOverlay
 stylesheets: 
 - base: 
   - screen
