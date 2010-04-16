@@ -50,6 +50,12 @@ namespace :vlad do
       run "ln -s #{shared_path}/config/#{file} #{current_path}/config/#{file}"
     end
   end
+  
+  desc "Generate compressed Javascript and Stylesheet files"
+  remote_task :asset_packager, :roles => :web do
+    puts "Generating compressed Javascript and Stylesheet files"
+    Rake::Task['asset:packager:build_all'].invoke
+  end
  
   desc "Full deployment cycle: Update, migrate, restart, cleanup"
   remote_task :deploy, :roles => :app do

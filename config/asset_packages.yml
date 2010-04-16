@@ -1,0 +1,16 @@
+--- 
+javascripts: 
+- base: 
+  - prototype
+  - effects
+  - dragdrop
+  - controls
+  - clusterer
+  - application
+- maps:
+  - ym4r-gm
+  - wms-gs
+  - geoRssOverlay
+stylesheets: 
+- base: 
+  - screen

@@ -12,16 +12,15 @@
       Lenart Rudel, programming | http://twitter.com/lenartr
       Nina Kožar, Blaž Galič, idea & copy
     
-    = stylesheet_link_tag "screen"
-    = javascript_include_tag :defaults
+    = stylesheet_link_merged :base
+    = javascript_include_merged :base
 
     - if @spot
       = render :partial => "spots/geo_header"
     
     - if @map
       = GMap.header(:with_vml => false)
-      =# javascript_include_tag("markerGroup")
-      = javascript_include_tag("clusterer")
+      = javascript_include_merged :maps
       = @map.to_html
 
 
