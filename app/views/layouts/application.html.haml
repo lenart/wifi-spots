@@ -17,7 +17,7 @@
 
     - if @map
       = GMap.header(:with_vml => false)
-      = javascript_include_merged :maps
+      = javascript_include_tag "clusterer", "geoRssOverlay", "ym4r-gm", "wms-gs"
       = @map.to_html
 
     - if @spot

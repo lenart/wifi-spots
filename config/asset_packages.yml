@@ -6,11 +6,6 @@ javascripts:
   - dragdrop
   - controls
   - application
-- maps:
-  - clusterer
-  - geoRssOverlay
-  - ym4r-gm
-  - wms-gs
 stylesheets: 
 - base: 
   - screen
