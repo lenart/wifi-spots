@@ -18,6 +18,9 @@
   %body#front
   
     #head
+      #controls
+        = link_to '<span>Dodaj točko</span>', new_spot_path, :id => "add_point"
+    
       
     #main
       - flash.each do |key, msg|

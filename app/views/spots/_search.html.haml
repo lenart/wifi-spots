@@ -4,9 +4,6 @@
   %label{:style => "display:block;"}
     = check_box_tag :geo, false, params[:geo], :style => "margin: 0; padding: 0; width: auto;"
     Iskanje brez geolokacije
-  %div.hint
-    %strong Primer iskanja:
-    dunajska cesta 100
   %br
   = submit_tag "Poišči točke", :class => "btn", :name => nil
   
