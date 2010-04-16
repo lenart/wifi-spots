@@ -25,7 +25,7 @@ class Spot < ActiveRecord::Base
   named_scope :deleted, :conditions => { :deleted => true }
   named_scope :active, :conditions => { :deleted => false }
   
-  named_scope :invalid, :conditions => ["lat=? AND lng=?", ApplicationController::DEFAULT_LAT, ApplicationController::DEFAULT_LNG]
+  named_scope :invalid, :conditions => ["lat=? AND lng=? AND deleted=false", ApplicationController::DEFAULT_LAT, ApplicationController::DEFAULT_LNG]
   
   define_index do
     indexes title
@@ -36,6 +36,10 @@ class Spot < ActiveRecord::Base
     has :open, :as => 'open' # should be written like this open is reserved by ruby
     has lat, lng, deleted
     where "deleted=false"
+  end
+  
+  def validate
+    errors.add_to_base "Prosimo, da določite kje se točka nahaja! Na zemljevidu (zgoraj) postavite marker na željeno lokacijo." if self.lat == ApplicationController::DEFAULT_LAT && self.lng == ApplicationController::DEFAULT_LNG
   end
   
   def latlng

@@ -16,7 +16,8 @@ div.geo { display: none; }
 .notice a   { color: #514721; }
 .success a  { color: #264409; }
 
-
+#main #errorExplanation p { width: auto; }
+#main #errorExplanation ul { margin: 5px 0 0 20px; }
 
 
 html, body, div, span, h1, h2, h3,

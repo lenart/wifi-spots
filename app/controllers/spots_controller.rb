@@ -92,7 +92,6 @@ class SpotsController < InheritedResources::Base
       redirect_to spot_url(@spot)
     else
       @map = initialize_google_map('map', @spot, :icon => 'icon_drag', :drag => true, :drag_title => "Kje se nahaja WiFi točka?", :load_icons => 'icon_drag')
-      @user = user
       render :action => 'new'
     end
   end
