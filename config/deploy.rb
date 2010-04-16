@@ -9,6 +9,7 @@ set :deploy_to, "/home/wifitocke/#{application}"
 set :repository, "git@github.com:lenart/wifi-spots.git"
 
 set :mongrel_conf, "#{deploy_to}/current/config/mongrel_cluster.yml"
+set :mongrel_environment, 'production'
 
 #
 # Mongrel configuration
@@ -51,6 +52,12 @@ namespace :vlad do
     end
   end
   
+  desc "Symlinks shared directories"
+  remote_task :symlink_shared, :roles => :web do
+    # Use shared sphinx index
+    run "ln -s #{shared_path}/system/sphinx #{current_path}/db/sphinx"    
+  end
+  
   desc "Generate compressed Javascript and Stylesheet files"
   remote_task :asset_packager, :roles => :web do
     puts "Generating compressed Javascript and Stylesheet files"
@@ -61,12 +68,17 @@ namespace :vlad do
   remote_task :deploy, :roles => :app do
     Rake::Task['vlad:update'].invoke
     Rake::Task['vlad:symlink_config'].invoke
+    Rake::Task['vlad:symlink_shared'].invoke
     Rake::Task['vlad:migrate'].invoke
     Rake::Task['vlad:restart'].invoke
     Rake::Task['vlad:cleanup'].invoke
 
-    # Sphinx setup
-    # Rake::Task['ts:conf'].invoke
-    Rake::Task['ts:index'].invoke
+    run 'cd #{current_release}; rake vlad:asset_packager'
+    Rake::Task['vlad:sphinx_restart'].invoke
+  end
+  
+  desc "Stop, index and start sphinx server"
+  remote_task :sphinx_restart, :roles => :web do
+    run "cd #{current_release}; rake ts:reindex RAILS_ENV=production"
   end
 end
