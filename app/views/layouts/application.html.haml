@@ -14,6 +14,7 @@
 
     = stylesheet_link_merged :base
     = javascript_include_merged :base
+    = javascript_include_tag "application"
 
     - if @map
       = GMap.header(:with_vml => false)
