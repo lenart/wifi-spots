@@ -28,7 +28,8 @@
       = form.label :reason, "Razlog za izbris"
       %br
       = form.text_area :reason, :rows => 5
-      %br
+      %div.captcha
+        = recaptcha_tags :ajax => true, :noscript => false
       = form.submit "Potrdi izbris"
       =# link_to "Potrdi izbris", delete_spot_path(@spot), :method => :delete, :confirm => "Si prepričan da želiš odstraniti točko?"
 

@@ -2,7 +2,7 @@ class SpotsController < InheritedResources::Base
   
   # before_filter :require_user, :only => [:edit, :update, :destroy]
   # before_filter :authorize, :only => [:edit, :update, :destroy]
-  before_filter :require_admin, :only => [:revert, :destroy]
+  before_filter :require_admin, :only => [:revert, :restore, :delete, :destroy]
   before_filter :ensure_friendly_url, :only => :show
   
   rescue_from 'Search::EmptyQuery' do
@@ -87,7 +87,7 @@ class SpotsController < InheritedResources::Base
     #   end
     end
     
-    if @spot.save
+    if @spot.save && captcha_valid?
       flash[:notice] = "WiFi točka je bila dodana! Hvala za pomoč!"
       redirect_to spot_url(@spot)
     else
@@ -114,10 +114,12 @@ class SpotsController < InheritedResources::Base
 
     @spot.updated_by = current_user || "Neznanec (#{request.remote_ip})"
     
-    update! {
+    if @spot.update_attributes(params[:spot]) && captcha_valid?
       flash[:notice] = "Podatki za WiFi točko so bili posodobljeni."
-      spot_path(@spot)
-    }
+      redirect_to spot_path(@spot)
+    else
+      render :action => 'edit'
+    end
   end
   
   # Revert to an earlier spot version
@@ -143,13 +145,18 @@ class SpotsController < InheritedResources::Base
   
   def delete
     @spot = Spot.find params[:id]
-    @spot.delete(params[:spot][:reason])
+    if captcha_valid?
+      @spot.delete(params[:spot][:reason])
     
-    if @spot.valid?
-      flash[:notice] = "WiFi točka je bila odstranjena!"
-      redirect_to spots_path
+      if @spot.valid?
+        flash[:notice] = "WiFi točka je bila odstranjena!"
+        redirect_to spots_path
+      else
+        flash[:error] = "Za izbris moraš navesti razlog."
+        redirect_to @spot
+      end
     else
-      flash[:error] = "Za izbris moraš navesti razlog."
+      flash[:error] = "reCaptcha ni bila pravilno prepisana!"
       redirect_to @spot
     end
   end
@@ -211,6 +218,10 @@ class SpotsController < InheritedResources::Base
       #       We now probably have two Spot.find for show action
       @spot ||= Spot.find params[:id]
       redirect_to @spot, :status => :moved_permanently unless @spot.friendly_id_status.best?
+    end
+    
+    def captcha_valid?
+      verify_recaptcha(:model => @spot, :message => "Ojoj! Napačno si prepisal-a reCaptcha znake. Poskusi še enkrat!")
     end
   
 end

@@ -221,6 +221,11 @@ html > body {
 			padding: 5px 8px;
 		}
 	
+	.captcha {
+		clear: both;
+		padding-top: 20px;
+	}
+	
 	/* ... continue main design ... */
 	#main h2 {
 		margin-bottom:1em; }
