@@ -79,6 +79,8 @@ namespace :vlad do
   
   desc "Stop, index and start sphinx server"
   remote_task :sphinx_restart, :roles => :web do
-    run "cd #{current_release}; rake ts:reindex RAILS_ENV=production"
+    run "cd #{current_release}; rake ts:index RAILS_ENV=production"
+    # should we restart the server?
+    # run "cd #{current_release}; rake ts:restart RAILS_ENV=production"
   end
 end
