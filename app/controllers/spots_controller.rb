@@ -1,6 +1,6 @@
 class SpotsController < InheritedResources::Base
   
-  # before_filter :require_user, :only => [:edit, :update, :destroy]
+  before_filter :require_user, :only => [:edit, :update, :destroy]
   # before_filter :authorize, :only => [:edit, :update, :destroy]
   before_filter :require_admin, :only => [:revert, :restore, :delete, :destroy]
   before_filter :ensure_friendly_url, :only => :show
