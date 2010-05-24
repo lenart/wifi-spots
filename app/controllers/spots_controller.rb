@@ -1,6 +1,6 @@
 class SpotsController < InheritedResources::Base
   
-  before_filter :require_user, :only => [:edit, :update, :destroy]
+  # before_filter :require_user, :only => [:edit, :update, :destroy]
   # before_filter :authorize, :only => [:edit, :update, :destroy]
   before_filter :require_admin, :only => [:revert, :restore, :delete, :destroy]
   before_filter :ensure_friendly_url, :only => :show
@@ -221,7 +221,14 @@ class SpotsController < InheritedResources::Base
     end
     
     def captcha_valid?
-      verify_recaptcha(:model => @spot, :message => "Ojoj! Napačno si prepisal-a reCaptcha znake. Poskusi še enkrat!")
+      return true if logged_in?
+      if %w(moder modra modre plave zelena zelen zelene turkizne turkizen).include? params[:morje].downcase.strip
+        return true
+      else
+        flash[:error] = "Vnesli ste napačno barvo morja :)"
+        return false
+      end
+      # verify_recaptcha(:model => @spot, :message => "Ojoj! Napačno si prepisal-a reCaptcha znake. Poskusi še enkrat!")
     end
   
 end
