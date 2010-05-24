@@ -6,3 +6,4 @@ config/development.sphinx.conf
 files/*
 lib/data/*
 db/sphinx/*
+db/backup/*
