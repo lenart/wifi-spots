@@ -21,15 +21,14 @@
     |
     = link_to "Izbriši (iz baze)", spot_path(@spot), :method => :delete, :confirm => "Si prepričan da želiš popolnoma odstraniti točko? Undo ne obstaja!"
 
-- unless @spot.deleted?
+- if logged_in? && !@spot.deleted?
   #delete{:style => "display:none;"}
     - # Unfortunately forms only know :get and :post methods
     - form_for @spot, :url => delete_spot_path(@spot) do |form|
       = form.label :reason, "Razlog za izbris"
       %br
       = form.text_area :reason, :rows => 5
-      %div.captcha
-        = recaptcha_tags :ajax => true, :noscript => false
+      %br
       = form.submit "Potrdi izbris"
       =# link_to "Potrdi izbris", delete_spot_path(@spot), :method => :delete, :confirm => "Si prepričan da želiš odstraniti točko?"
 
