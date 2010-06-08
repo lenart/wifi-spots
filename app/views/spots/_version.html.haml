@@ -19,3 +19,4 @@
       = link_to "Prejšna različica", revert_spot_path(@spot) + "?version=#{version.number-1}", :method => :put
     - else
       = link_to "Nastavi za trenutno", revert_spot_path(@spot) + "?version=#{version.number}", :method => :put
+    = link_to "Povrni v prvotno", revert_spot_path(@spot) + "?version=1", :method => :put
