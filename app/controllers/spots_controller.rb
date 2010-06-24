@@ -25,6 +25,8 @@ class SpotsController < InheritedResources::Base
     flash[:notice] = "Nismo uspeli dobiti podatkov o vnešeni lokaciji: <strong>#{e.address}</strong>."
   end
   
+  
+  
   def index
     @search = Search.new params
     @spots = @search.run # we don't want anyone to access index without search string
@@ -92,6 +94,7 @@ class SpotsController < InheritedResources::Base
       redirect_to spot_url(@spot)
     else
       @map = initialize_google_map('map', @spot, :icon => 'icon_drag', :drag => true, :drag_title => "Kje se nahaja WiFi točka?", :load_icons => 'icon_drag')
+      @map.center_zoom_init(GLatLng.new(@spot.latlng), @spot.zoom)
       render :action => 'new'
     end
   end
@@ -222,13 +225,7 @@ class SpotsController < InheritedResources::Base
     
     def captcha_valid?
       return true if logged_in?
-      if %w(moder modra modre plave zelena zelen zelene turkizne turkizen).include? params[:morje].downcase.strip
-        return true
-      else
-        flash[:error] = "Vnesli ste napačno barvo morja :)"
-        return false
-      end
-      # verify_recaptcha(:model => @spot, :message => "Ojoj! Napačno si prepisal-a reCaptcha znake. Poskusi še enkrat!")
+      verify_recaptcha(:model => @spot, :message => "Ojoj! Napačno si prepisal-a reCaptcha znake. Poskusi še enkrat!")
     end
   
 end

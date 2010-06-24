@@ -75,12 +75,14 @@
     = link_to_function 'Želim vnesti še dodaten opis', 'App.toggleNotes()'
     
   - unless logged_in?
-    %dl
-      %dt= label_tag :morje, "Barva morja?"
-      %dd
-        = text_field_tag :morje, ""
-        %span.hint Samo preverjamo ali ste res človek.
-
+    /
+      %dl
+        %dt= label_tag :morje, "Barva morja?"
+        %dd
+          = text_field_tag :morje, ""
+          %span.hint Samo preverjamo ali ste res človek.
+    = recaptcha_tags
+    
 - unless @spot.location.blank? && @spot.city.blank? && @spot.url.blank?
   = javascript_tag "App.toggleNotes()"
 

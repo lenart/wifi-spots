@@ -3,6 +3,7 @@ tmp/*
 tmp/**/*
 config/database.yml
 config/development.sphinx.conf
+config/initializers/recaptcha_keys.rb
 files/*
 lib/data/*
 db/sphinx/*
