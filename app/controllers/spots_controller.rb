@@ -89,7 +89,8 @@ class SpotsController < InheritedResources::Base
     #   end
     end
     
-    if @spot.save && captcha_valid?
+    if @spot.valid && captcha_valid?
+      @spot.save
       flash[:notice] = "WiFi točka je bila dodana! Hvala za pomoč!"
       redirect_to spot_url(@spot)
     else
@@ -117,9 +118,13 @@ class SpotsController < InheritedResources::Base
 
     @spot.updated_by = current_user || "Neznanec (#{request.remote_ip})"
     
-    if @spot.update_attributes(params[:spot]) && captcha_valid?
-      flash[:notice] = "Podatki za WiFi točko so bili posodobljeni."
-      redirect_to spot_path(@spot)
+    if captcha_valid?
+      if @spot.update_attributes(params[:spot])
+        flash[:notice] = "Podatki za WiFi točko so bili posodobljeni."
+        redirect_to spot_path(@spot)
+      else
+        render :action => 'edit'
+      end
     else
       render :action => 'edit'
     end
@@ -148,6 +153,7 @@ class SpotsController < InheritedResources::Base
   
   def delete
     @spot = Spot.find params[:id]
+    
     if captcha_valid?
       @spot.delete(params[:spot][:reason])
     

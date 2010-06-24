@@ -50,6 +50,8 @@ namespace :vlad do
     %w(database.yml mongrel_cluster.yml production.sphinx.conf).each do |file|
       run "ln -s #{shared_path}/config/#{file} #{current_path}/config/#{file}"
     end
+    
+    run "ln -s #{shared_path}/config/recaptcha_keys.rb #{current_path}/config/initializers/recaptcha_keys.rb"
   end
   
   desc "Symlinks shared directories"
