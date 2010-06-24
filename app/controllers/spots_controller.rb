@@ -89,7 +89,7 @@ class SpotsController < InheritedResources::Base
     #   end
     end
     
-    if @spot.valid && captcha_valid?
+    if @spot.valid? && captcha_valid?
       @spot.save
       flash[:notice] = "WiFi točka je bila dodana! Hvala za pomoč!"
       redirect_to spot_url(@spot)
@@ -117,15 +117,15 @@ class SpotsController < InheritedResources::Base
     end
 
     @spot.updated_by = current_user || "Neznanec (#{request.remote_ip})"
+    @spot.attributes = params[:spot]
     
-    if captcha_valid?
-      if @spot.update_attributes(params[:spot])
-        flash[:notice] = "Podatki za WiFi točko so bili posodobljeni."
-        redirect_to spot_path(@spot)
-      else
-        render :action => 'edit'
-      end
+    if @spot.valid? && captcha_valid?
+      @spot.save
+      flash[:notice] = "Podatki za WiFi točko so bili posodobljeni."
+      redirect_to spot_path(@spot)
     else
+      @map = initialize_google_map('map', @spot, :icon => 'icon_drag', :drag => true, :drag_title => "Kje se nahaja WiFi točka?", :load_icons => 'icon_drag')
+      @map.center_zoom_init(GLatLng.new(@spot.latlng), @spot.zoom)
       render :action => 'edit'
     end
   end
