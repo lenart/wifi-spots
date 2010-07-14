@@ -120,7 +120,7 @@ module MapsHelper
     info << "SSID: #{result.ssid}<br>" unless result.ssid.blank?
     info << "Geslo: #{result.key}<br>" unless result.key.blank?
     info << "</p>"
-    info << "<p><a href=\"/spots/#{result.id}\" title=\"Poglej podatke\" style=\"font-size: 12px;\">Podrobnosti</a></p>"
+    info << "<p><a href=\"/tocke/#{result.id}\" title=\"Poglej podatke\" style=\"font-size: 12px;\">Podrobnosti</a></p>"
     info.to_s
   end
   

@@ -48,10 +48,14 @@ namespace :vlad do
   desc "Symlinks the configuration files"
   remote_task :symlink_config, :roles => :web do
     %w(database.yml mongrel_cluster.yml production.sphinx.conf).each do |file|
+      puts "Symlinking #{file}"
       run "ln -s #{shared_path}/config/#{file} #{current_path}/config/#{file}"
     end
     
+    puts "Symlinking reCaptcha keys (recaptcha_keys.rb)"
     run "ln -s #{shared_path}/config/recaptcha_keys.rb #{current_path}/config/initializers/recaptcha_keys.rb"
+    puts "Symlinking backup directory"
+    run "ln -s #{shared_path}/backup/ #{current_path}/backup"
   end
   
   desc "Symlinks shared directories"
