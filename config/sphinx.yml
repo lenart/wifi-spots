@@ -2,3 +2,6 @@ production:
   bin_path: ''
   searchd_binary_name: '/usr/local/sbin/searchd'
   indexer_binary_name: '/usr/local/bin/indexer'
+  searchd_log_file: "/home/wifitocke/wifi-tocke.si/current/log/searchd.log"
+  query_log_file: "/home/wifitocke/wifi-tocke.si/current/log/searchd.query.log"
+  pid_file: "/home/wifitocke/wifi-tocke.si/current/log/searchd.ENVIRONMENT.pid"
