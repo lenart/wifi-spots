@@ -121,7 +121,7 @@ end
 
 class Search::NoGeoLocation < RangeError
   def initialize(address)
-    Rails.logger.warn "Unable to geocode address #{address}"
+    Rails.logger.warn "Unable to geocode: '#{address}'"
   end
 end
 

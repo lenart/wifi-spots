@@ -6,7 +6,7 @@ class SpotsController < InheritedResources::Base
   before_filter :ensure_friendly_url, :only => :show
   
   rescue_from 'Search::EmptyQuery' do
-    redirect_to(root_path, :status => 302)
+    redirect_to root_path
   end
   
   rescue_from 'Search::NoResults' do |e|
