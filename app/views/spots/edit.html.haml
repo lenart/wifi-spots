@@ -4,3 +4,9 @@
   = render :partial => "form", :locals => { :f => f }
   
   = submit_tag "Osveži"
+
+:javascript
+  Event.observe(window, 'load', function(){
+    app = new WifiMap([#{@spot.client_side_json}])
+    app.spots[0].dragEnable()
+  })

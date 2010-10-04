@@ -25,44 +25,21 @@ class SpotsController < InheritedResources::Base
     flash[:notice] = "Nismo uspeli dobiti podatkov o vnešeni lokaciji: <strong>#{e.address}</strong>."
   end
   
-  
-  
   def index
     @search = Search.new params
     @spots = @search.run # we don't want anyone to access index without search string
     
     respond_to do |format|
-      format.html do
-        @map = initialize_google_map("map", nil, :load_icons => "icon_spot, icon_green")
-
-        markers = create_spots_markers(@spots)
-        
-        # Add reference point for geolocated search
-        markers << GMarker.new([@search.location.lat, @search.location.lng],
-                               :icon => Variable.new("icon_green"), :title => "Izhodišče iskanja") if @search.location && @search.location.success
-
-        clusterer = Clusterer.new(markers, :max_visible_markers => 50)
-        @map.overlay_init clusterer
-
-        @bounds = bounding_box_corners(markers)
-        @map.center_zoom_on_bounds_init(GLatLngBounds.new(@bounds.first, @bounds.last))
-      end
+      format.html
       format.xml { render :xml => @spots }
     end
   end
   
-  def show
-    show! {
-      @map = initialize_google_map('map', @spot, :icon => "icon_spot", :title => @spot.title, :zoom => @spot.zoom)
-    }
-  end
-    
+
   def new
     new! do
       @spot.lat, @spot.lng = DEFAULT_LAT, DEFAULT_LNG
       @spot.zoom = DEFAULT_ZOOM
-      
-      @map = initialize_google_map('map', @spot, :drag => true, :drag_title => "Kje se nahaja WiFi točka?", :icon => 'icon_drag', :load_icons => 'icon_drag')
     end
   end
   
@@ -94,16 +71,7 @@ class SpotsController < InheritedResources::Base
       flash[:notice] = "WiFi točka je bila dodana! Hvala za pomoč!"
       redirect_to spot_url(@spot)
     else
-      @map = initialize_google_map('map', @spot, :icon => 'icon_drag', :drag => true, :drag_title => "Kje se nahaja WiFi točka?", :load_icons => 'icon_drag')
-      @map.center_zoom_init(GLatLng.new(@spot.latlng), @spot.zoom)
       render :action => 'new'
-    end
-  end
-  
-  def edit
-    edit! do
-      @map = initialize_google_map('map', @spot, :icon => 'icon_drag', :drag => true, :drag_title => "Kje se nahaja WiFi točka?", :load_icons => 'icon_drag')
-      @map.center_zoom_init(GLatLng.new(@spot.latlng), @spot.zoom)
     end
   end
   
@@ -124,8 +92,6 @@ class SpotsController < InheritedResources::Base
       flash[:notice] = "Podatki za WiFi točko so bili posodobljeni."
       redirect_to spot_path(@spot)
     else
-      @map = initialize_google_map('map', @spot, :icon => 'icon_drag', :drag => true, :drag_title => "Kje se nahaja WiFi točka?", :load_icons => 'icon_drag')
-      @map.center_zoom_init(GLatLng.new(@spot.latlng), @spot.zoom)
       render :action => 'edit'
     end
   end

@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
   DEFAULT_ZOOM = 8
 
   include InheritedResources::DSL
-  include MapsHelper
 
   helper :all # include all helpers, all the time
   helper_method :logged_in?, :current_user

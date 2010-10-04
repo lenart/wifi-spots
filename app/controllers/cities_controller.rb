@@ -5,7 +5,6 @@ class CitiesController < ApplicationController
   def index
     # FIXME Why the fuck is default_scope not working??
     @cities = City.all :order => 'name asc'
-    @map = initialize_google_map("map", nil, :load_icons => "icon_home", :capital => true)
   end
 
   def show
@@ -17,18 +16,8 @@ class CitiesController < ApplicationController
     @search = Search.new params
     
     respond_to do |format|
-      format.html do
-        @map = initialize_google_map("map", nil, :load_icons => "icon_spot, icon_green")
-
-        markers = create_spots_markers(@spots)
-        markers << GMarker.new(@city.latlng, :icon => Variable.new("icon_green"), :title => "Izhodišče iskanja")
-        clusterer = Clusterer.new(markers, :max_visible_markers => 50)
-        @map.overlay_init clusterer
-
-        @bounds = bounding_box_corners(markers)
-        @map.center_zoom_on_bounds_init(GLatLngBounds.new(@bounds.first, @bounds.last))
-      end
-      format.xml  { render :xml => @spots }
+      format.html
+      format.xml { render :xml => @spots }
     end
   end
   

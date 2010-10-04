@@ -118,6 +118,16 @@ class Spot < ActiveRecord::Base
   def destroy!
     self.destroy
   end
+  
+  
+  def client_side_json
+    options = {}
+    options[:only] = [:id, :title, :lat, :lng, :zoom, :description]
+    # options[:methods] = [:unanswered_questions, :skips_left, :question_count, :textilized_instructions]
+    to_json(options)
+  end
+  
+  
 
 ###########################
 # PRIVATE

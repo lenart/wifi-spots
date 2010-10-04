@@ -18,3 +18,12 @@
   %p
     Nismo našli točk, ki bi ustrezali iskalnemu nizu
     %strong= @search.string
+
+%script{:type => "text/javascript"}
+  Event.observe(window, 'load', function(){
+  var wifiSpots = [
+  - @spots.each do |spot|
+    = spot.client_side_json + ","
+  ]
+  app = new WifiMap(wifiSpots)
+  })

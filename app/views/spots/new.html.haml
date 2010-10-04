@@ -22,3 +22,9 @@
   
 %p
   = link_to "« Nazaj na seznam", spots_path
+  
+:javascript
+  Event.observe(window, 'load', function() {
+    app = new WifiMap([#{@spot.client_side_json}])
+    app.spots[0].dragEnable()
+  })

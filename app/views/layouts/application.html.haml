@@ -1,37 +1,39 @@
 !!!
 %html
   %head
-    %title= yield(:title) || "WiFi točke"
-    %meta{ "http-equiv" => "Content-Type", :content=> "text/html; charset=utf-8" }
-    %meta{ :name => 'keywords', :content => yield(:keywords) || 'wifi točke, brezžična omrežja, brezplačne točke, brezplačen internet, dostop do interneta, wi-fi, wireless' }
-    %meta{ :name => 'description', :content => yield(:description) || 'Seznam WiFi točk v Sloveniji, kjer lahko brezplačno dostopate do interneta. Poznaš tudi ti kako? Dodaj jo na zemljevid!' }
-    
     /
       AUTHORS:
       Dusan Smolnikar, design | http://dusan.fora.si/
-      Lenart Rudel, programming | http://twitter.com/lenartr
+      Lenart Rudel s.p., programming | http://twitter.com/lenartr
       Nina Kožar, Blaž Galič, idea & copy
+      
+      This project is open-source.
+      You are welcome to download the code and make improvements
+      http://github.com/lenart/wifi-spots
 
+    %title= yield(:title) || "WiFi točke"
+    %meta{ "http-equiv" => "Content-Type", :content=> "text/html; charset=utf-8" }
+    
+    %meta{ :name => 'keywords', :content => yield(:keywords) || default_keywords }
+    %meta{ :name => 'description', :content => yield(:description) || default_description }
+    
+    %meta{ :name => 'author', :content => "Lenart Rudel s.p." }
+    %meta{ :name => 'framework', :content => "Ruby on Rails 2.3.x" }
+    
     = stylesheet_link_merged :base
     = javascript_include_merged :base
     = javascript_include_tag "application"
-
-    - if @map
-      = GMap.header(:with_vml => false)
-      = javascript_include_tag "clusterer", "geoRssOverlay", "ym4r-gm", "wms-gs"
-      = @map.to_html
-
-    - if @spot
-      = render :partial => "spots/geo_header"
-
+    
+    = '<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>'
+    = yield :head
 
   %body
   
     #head
       %h1= link_to(image_tag('wifi.gif', :alt => "Wifi") + image_tag('tocke.gif', :alt => "točke"), root_url)
 
-    - if @map
-      #map
+    - unless hide_map?
+      #map_canvas
         = yield :map
       
       #controls
@@ -45,6 +47,8 @@
 
     #footer
       = render :partial => "/layouts/footer"
+      
+    = yield :foot
 
     - unless local_request?
       = render :partial => "layouts/google_analytics"

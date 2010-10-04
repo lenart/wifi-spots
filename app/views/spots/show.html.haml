@@ -2,6 +2,9 @@
 - keywords "#{@spot.title}, wifi točka, brezžično omrežje, brezplačna točka, brezplačen internet, dostop do interneta, wi-fi, wireless"
 - description "Brezplačna WiFi točka: #{@spot.title} - #{@spot.notes}"
 
+- content_for :head do
+  = render :partial => "spots/geo_header"
+
 %h2
   =h @spot.title
   = " (izbrisana)" if @spot.deleted?
@@ -97,3 +100,9 @@
           = render :partial => 'version', :object => version
 %p.clear
   = link_to "« Nazaj na seznam", spots_path
+  
+
+:javascript
+  Event.observe(window, 'load', function(){
+    app = new WifiMap([#{@spot.client_side_json}])
+  })

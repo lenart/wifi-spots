@@ -14,3 +14,12 @@
 
 %ul#main_list
   = render @spots
+  
+%script{:type => "text/javascript"}
+  Event.observe(window, 'load', function() {
+  var wifiSpots = [
+  - @spots.each do |spot|
+    = spot.client_side_json + ","
+  ]
+  app = new WifiMap(wifiSpots)
+  })
