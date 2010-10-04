@@ -286,26 +286,47 @@ html > body {
 	voice-family: "\"}\"";
 	voice-family: inherit;
 	position:absolute;
-	bottom:0; width:100%; }
+	bottom:0; width:100%;
 	
-	#footer div {
+  div {
 		color:#999;
 		border-top:1px solid #bbb;
-		margin:0 1em 0.2em 1em;
-		padding:0.2em 1em;
-		text-align:center; }
+		margin:0em 1em 0.2em 1em;
+		padding:0.8em 1em;
+		position: relative;
+		}
 		
-		#footer a {
+		.copyright {
+		  position: absolute;
+		  left: 0; top: 0;
+		  border: none;
+		}
+		
+		.facebook {
+		  position: absolute;
+		  right: 0; top: 0;
+		  width: 450px;
+		  border: none;
+		}
+		
+    a {
 			color:#999;
-			text-decoration:underline; }
+			text-decoration:underline;
+			}
 			
-		#footer a:hover {
-			text-decoration:none; }
+		a:hover {
+			text-decoration:none;
+			}
+}
 
 
-
-
-
+@media handheld, screen and (max-width: 60em) {
+  #footer,
+  #footer .facebook,
+  #footer .copyright {
+    position: static;
+  }
+}
 
 @media handheld, screen and (max-width: 35em) {
 	#head {
@@ -350,8 +371,5 @@ html > body {
 			
 	#controls a {
 		float:left; margin:0 0 0 0.5em; }
-		
-	#footer {
-	  position:static;
-	}
+
 }

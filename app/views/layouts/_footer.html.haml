@@ -1,11 +1,15 @@
 %div
-  2010
-  &copy;
-  Vse pravice pridržane
-  |
-  = link_to image_tag("facebook.png", :alt => "Facebook", :style => "vertical-align: middle;"), "http://www.facebook.com/pages/WiFi-tocke/388201696064?ref=ts"
-  |
-  = mail_to("info@wifi-tocke.si", image_tag("email.png", :alt => "E-mail", :style => "vertical-align: middle"))
-  |
-  Sponzor gostovanja
-  = link_to "Siel.si", 'http://www.siel.si', :title => 'Siel - Ruby gostovanje'
+  .copyright
+    2010
+    &copy;
+    Vse pravice pridržane
+    |
+    = link_to image_tag("facebook.png", :alt => "Facebook", :style => "vertical-align: middle;"), "http://www.facebook.com/pages/WiFi-tocke/388201696064?ref=ts"
+    |
+    = mail_to("info@wifi-tocke.si", image_tag("email.png", :alt => "E-mail", :style => "vertical-align: middle"))
+    |
+    Sponzor gostovanja
+    = link_to "Siel.si", 'http://www.siel.si', :title => 'Siel - Ruby gostovanje'
+  
+  .facebook
+    = render :partial => "/layouts/facebook_like"
