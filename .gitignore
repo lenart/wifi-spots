@@ -1,3 +1,4 @@
+.sass-cache
 log/*
 tmp/*
 tmp/**/*
@@ -8,3 +9,4 @@ files/*
 lib/data/*
 db/sphinx/*
 db/backup/*
+public/stylesheets/screen.css
