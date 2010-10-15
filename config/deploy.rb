@@ -35,7 +35,7 @@ namespace :vlad do
     puts "Symlinking reCaptcha keys (recaptcha_keys.rb)"
     run "ln -s #{shared_path}/config/recaptcha_keys.rb #{current_path}/config/initializers/recaptcha_keys.rb"
     puts "Symlinking backup directory"
-    run "ln -s #{shared_path}/backup/ #{current_path}/backup"
+    run "ln -s #{shared_path}/backup/ #{current_path}/db/backup"
   end
   
   desc "Symlinks shared directories"
