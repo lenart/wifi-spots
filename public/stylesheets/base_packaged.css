@@ -8,37 +8,37 @@ div.geo {display: none}
 .success a {color: #264409}
 #main #errorExplanation p {width: auto}
 #main #errorExplanation ul {margin: 5px 0 0 20px}
-html, body, div, span, h1, h2, h3, h4, h5, h6, ul, ol, li, form, table, td, tr, img, p, fieldset, lable, dl, dt, dd {margin:0; padding:0; border:0; font-weight:normal}
-input, select {margin:0}
-html {height:100%}
-body {background:white; font:80%/1.7em Tahoma, Verdana, Helvetica, Arial, sans-serif; text-align:left; color:#333}
-html > body {height:auto; min-height:100%; position:relative}
-* html body {height:100%; position:relative}
-.clear {clear:both}
-#head {border-top:3px solid #008de7; padding:1.25em 0}
+html, body, div, span, h1, h2, h3, h4, h5, h6, ul, ol, li, form, table, td, tr, img, p, fieldset, lable, dl, dt, dd {margin: 0; padding: 0; border: 0; font-weight: normal}
+input, select {margin: 0}
+html {height: 100%}
+body {background: white; font: 80%/1.7em Tahoma, Verdana, Helvetica, Arial, sans-serif; text-align: left; color: #333}
+html > body {height: auto; min-height: 100%; position: relative}
+* html body {height: 100%; position: relative}
+.clear {clear: both}
 #front #head {padding: 0}
-#head h1 {font-weight:normal; font-size:2.5em; font-family:"Gill Sans", Tahoma, Verdana, Helvetica, Arial, sans-serif; margin:0 0.8em}
-#head a {color:#008de7; text-decoration:none}
-#head a .wifi {font-weight:400}
-#head a .tocke {color:#474747; font-weight:200}
-#head fieldset {text-align:right; line-height:2.2em; margin-right:1em}
-#head fieldset label {white-space:nowrap; margin-left:0.5em}
-#head fieldset select {margin-right:1em}
-#head .noscript {display:inline}
-#head input {margin-right:1em}
-#map {height:400px; border-color:#666; border-style:solid; border-top-width:1px; border-bottom-width:1px}
-#controls {height:2em}
-#controls a {margin-right:2em; float:right; padding:0.2em 1em; background:#666; color:white; text-decoration:none; font-weight:bold; -moz-border-radius-bottomleft:6px; -webkit-border-bottom-left-radius:6px; -moz-border-radius-bottomright:6px; -webkit-border-bottom-right-radius:6px}
-#controls a:hover {background:#333}
-#controls a span {text-decoration:underline; font-weight:normal}
-#controls a:hover span {text-decoration:none}
-#main {margin:2em 2em 0 2em; padding-bottom:5em}
-#main a {color:#005c96; text-decoration:underline;}
-#main a:hover {color:#005c96; text-decoration:none}
-#main_list {list-style-type:none}
-#main_list li {line-height:1.4em; margin-bottom:0.4em; padding:0.2em 0.5em; display:block}
- #main_list li a {width:29%; margin-right:2%; float:left; overflow:hidden; white-space:nowrap; max-width:30em}
-#main_list li span {width:69%; display:block; overflow:hidden; white-space:nowrap}
+#head {border-top: 3px solid #008de7; padding: 1.25em 0}
+#head h1 {font-weight: normal; font-size: 2.5em; font-family: "Gill Sans", Tahoma, Verdana, Helvetica, Arial, sans-serif; margin: 0 0.8em}
+#head a {color: #008de7; text-decoration: none}
+#head a .wifi {font-weight: 400}
+#head a .tocke {color: #474747; font-weight: 200}
+#head fieldset {text-align: right; line-height: 2.2em; margin-right: 1em}
+#head fieldset label {white-space: nowrap; margin-left: 0.5em}
+#head fieldset select {margin-right: 1em}
+#head .noscript {display: inline}
+#head input {margin-right: 1em}
+#map_canvas {height: 400px; border-color: #666; border-style: solid; border-top-width: 1px; border-bottom-width: 1px}
+#controls {height: 2em}
+#controls a {margin-right: 2em; float: right; padding: 0.2em 1em; background: #666; color: white; text-decoration: none; font-weight: bold; -moz-border-radius-bottomleft: 6px; -webkit-border-bottom-left-radius: 6px; -moz-border-radius-bottomright: 6px; -webkit-border-bottom-right-radius: 6px}
+#controls a:hover {background: #333}
+#controls a span {text-decoration: underline; font-weight: normal}
+#controls a:hover span {text-decoration: none}
+#main {margin: 2em 2em 0 2em; padding-bottom: 5em}
+#main a {color: #005c96; text-decoration: underline}
+#main a:hover {color: #005c96; text-decoration: none}
+#main_list {list-style-type: none}
+#main_list li {line-height: 1.4em; margin-bottom: 0.4em; padding: 0.2em 0.5em; display: block}
+ #main_list li a {width: 29%; margin-right: 2%; float: left; overflow: hidden; white-space: nowrap; max-width: 30em}
+#main_list li span {width: 69%; display: block; overflow: hidden; white-space: nowrap}
 #main_list li a, #main_list li span {text-overflow: ellipsis; -o-text-overflow: ellipsis; -icab-text-overflow: ellipsis; -khtml-text-overflow: ellipsis; -moz-text-overflow: ellipsis; -webkit-text-overflow: ellipsis}
  #main #search {text-align: center; margin-bottom: 20px}
 #main #search input#q {padding: 4px; width: 30%; font-size: 12px}
@@ -48,32 +48,35 @@ html > body {height:auto; min-height:100%; position:relative}
  #front #main h1 {text-align: center; margin-bottom: 20px}
 .pagination {margin-top: 20px; text-align: center}
 .pagination span, .pagination a {padding: 5px 8px}
- #main h2 {margin-bottom:1em}
-#main dl {clear:both; line-height:1.4em; padding-top:2.1em}
-#main dt {color:#999; width:10em; float:left; clear:left; padding-bottom:0.7em}
-#main form dt {color:#333}
-#main dd {float:left; padding-bottom:0.7em}
-#main form dd span {font-size:0.85em; line-height:1.1em; color:#999; display:block}
-#main input, #main textarea, #main select, #main p, #main span {width:20em}
-#main input.submit {width:15em}
+ #main h2 {margin-bottom: 1em}
+#main dl {clear: both; line-height: 1.4em; padding-top: 2.1em}
+#main dt {color: #999; width: 10em; float: left; clear: left; padding-bottom: 0.7em}
+#main form dt {color: #333}
+#main dd {float: left; padding-bottom: 0.7em}
+#main form dd span {font-size: 0.85em; line-height: 1.1em; color: #999; display: block}
+#main input, #main textarea, #main select, #main p, #main span {width: 20em}
+#main input.submit {width: 15em}
 #main #versions {width: 100%; padding-top: 20px; clear: both}
 #main #versions th {font-weight: bold; border-bottom: 2px solid #ccc}
 #main #versions td {border-bottom: 1px solid #ccc; padding: 4px 0; vertical-align: top}
 #main #versions td.changes p {font-size: 10px; width: auto}
 #main #versions td.changes span {color: blue}
-#footer {voice-family: "\"}\""; voice-family: inherit; position:absolute; bottom:0; width:100%}
-#footer div {color:#999; border-top:1px solid #bbb; margin:0 1em 0.2em 1em; padding:0.2em 1em; text-align:center}
-#footer a {color:#999; text-decoration:underline}
-#footer a:hover {text-decoration:none}
-@media handheld, screen and (max-width: 35em) {#head {padding-bottom:0.5em}
-#head h1 {margin:0 0.4em}
-#head fieldset {clear:both; text-align:left; padding:1em 0 0 0.5em; margin:0}
-#head label {display:block; white-space:normal}
-#main {margin:2em 1em 2em 1em; padding-bottom:0}
-#main_list li a {float:none; display:block; width:auto; white-space:normal}
-#main_list li span {width:auto; white-space:normal}
-#main dt {padding-bottom:0em}
-#main dd {clear:left}
-#controls a {float:left; margin:0 0 0 0.5em}
-#footer {position:static}
+#footer {voice-family: "\"}\""; voice-family: inherit; position: absolute; bottom: 0; width: 100%}
+#footer div {color: #999; border-top: 1px solid #bbb; margin: 0em 1em 0.2em 1em; padding: 0.8em 1em; position: relative}
+#footer .copyright {position: absolute; left: 0; top: 0; border: none}
+#footer .facebook {position: absolute; right: 0; top: 0; width: 450px; border: none}
+#footer a {color: #999; text-decoration: underline}
+#footer a:hover {text-decoration: none}
+@media handheld, screen and (max-width: 60em) {#footer, #footer .facebook, #footer .copyright {position: static}
+}
+@media handheld, screen and (max-width: 35em) {#head {padding-bottom: 0.5em}
+#head h1 {margin: 0 0.4em}
+#head fieldset {clear: both; text-align: left; padding: 1em 0 0 0.5em; margin: 0}
+#head label {display: block; white-space: normal}
+#main {margin: 2em 1em 2em 1em; padding-bottom: 0}
+#main_list li a {float: none; display: block; width: auto; white-space: normal}
+#main_list li span {width: auto; white-space: normal}
+#main dt {padding-bottom: 0em}
+#main dd {clear: left}
+#controls a {float: left; margin: 0 0 0 0.5em}
 }
