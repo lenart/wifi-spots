@@ -7,6 +7,7 @@ set :repository, "git@github.com:lenart/wifi-spots.git"
 
 set :mongrel_conf, "#{deploy_to}/current/config/mongrel_cluster.yml"
 set :mongrel_environment, 'production'
+set :whenever_path, '/home/wifitocke/.gem/ruby/1.8/bin/'
 
 namespace :vlad do
 
@@ -60,6 +61,7 @@ namespace :vlad do
     Rake::Task['vlad:cleanup'].invoke
 
     Rake::Task['vlad:asset_packager'].invoke
+    Rake::Task['vlad:update_crontab'].invoke
     Rake::Task['vlad:sphinx_restart'].invoke
   end
   
@@ -68,5 +70,10 @@ namespace :vlad do
     run "cd #{current_release}; rake ts:index RAILS_ENV=production"
     # should we restart the server?
     # run "cd #{current_release}; rake ts:restart RAILS_ENV=production"
+  end
+  
+  desc "Update the crontab file"
+  remote_task :update_crontab, :roles => :app do
+    run "cd #{release_path} && #{whenever_path}whenever --update-crontab #{application}"
   end
 end

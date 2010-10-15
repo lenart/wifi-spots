@@ -19,7 +19,7 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.day :at => "4am" do
+every 1.day, :at => "4am" do
   rake "db:backup"
   rake "ts:rebuild"
 end
