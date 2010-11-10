@@ -2,10 +2,15 @@
 
 class User < ActiveRecord::Base
   
-  acts_as_authentic do |c|
-    # c.validate_login_field = false
-    # c.validates_length_of_login_field_options = { :within => 2..5 }
+  acts_as_authentic do |config|
+    # config.validate_login_field = false
+    # config.validates_length_of_login_field_options = { :within => 2..5 }
+    config.validate_email_field    = false
+    config.validate_login_field    = false
+    config.validate_password_field = false
   end
+  
+  include Profile
   
   has_many :spots, :dependent => :destroy
   
@@ -18,25 +23,4 @@ class User < ActiveRecord::Base
     return email
   end
     
-  def self.quick_create(email)
-    pass = generate_password
-    user = User.create(:email => email, :password => pass, :password_confirmation => pass)
-    
-    UserMailer.deliver_anonymous_signup_notification(user) if user.valid?
-    
-    return user
-  end
-  
-
-###########################
-# PRIVATE
-###########################
-  
-  private
-    
-    def self.generate_password
-      # generate a random 8 digit password
-      Authlogic::Random.friendly_token[0..7]
-    end
-
 end

@@ -51,20 +51,7 @@ class SpotsController < InheritedResources::Base
     @spot.zoom = params[:zoom].blank? ? DEFAULT_ZOOM : params[:zoom]
     
     # Create new user on the fly if necessary
-    if logged_in?
-      @spot.user = current_user
-    # TODO Generate users here if we want to
-    # else
-    #   user = User.quick_create(params[:email])
-    #   if user.valid?
-    #     @spot.user = user
-    #   else
-    #     @map = initialize_google_map('map', @spot, :drag => true, :drag_title => "Kje se nahaja WiFi točka?", :icon => 'icon_drag', :load_icons => 'icon_drag')
-    #     flash[:error] = "E-mail ki ste ga vnesli je že registriran. Če ste vi lastnik, potem <a href='/login' title='Prijavi se'>se prijavite</a>."
-    #     render :action => 'new'
-    #     return
-    #   end
-    end
+    @spot.user = current_user if logged_in?
     
     if @spot.valid? && captcha_valid?
       @spot.save

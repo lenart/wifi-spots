@@ -5,7 +5,6 @@ class CreateUsers < ActiveRecord::Migration
       t.column :crypted_password,          :string, :null => false
       t.column :password_salt,             :string, :limit => 40, :null => false
       
-      t.string :email,    :limit => 100, :null => false
       t.string :name,     :limit => 50,  :null => false, :default => ''
       
       t.string :persistence_token, :null => false

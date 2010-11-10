@@ -1,17 +1,4 @@
-#profile_details.fl
-  %p
-    = f.label :email, "E-mail naslov"
-    = f.text_field :email
-    %span.hint Tudi mi ne maramo spam pošte. Ne skrbite!
-  
-  %p
-    = f.label :name, "Ime ali vzdevek"
-    = f.text_field :name
-  
-  %p
-    = f.label :password, "Geslo"
-    = f.password_field :password
-    
-  %p
-    = f.label :password_confirmation, "Potrdite geslo"
-    = f.password_field :password_confirmation
+= form.label :login
+= form.text_field :login
+= form.submit "Register"
+=raw oauth_register_button :value => "Register with Twitter", :class => 'twitter'

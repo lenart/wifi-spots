@@ -7,7 +7,6 @@ This is the source code for the Slovenian Ruby on Rails project "wifi-tocke.si":
 h3. To-do list
 
 * before a spot is added check for similar entries and warn about possible duplicates
-* switch to version 3 of Google Maps API
 * users can confirm that a wifi signal exists at the location
 * add a slider for distance/range on cities view
 * make views for mobile phones

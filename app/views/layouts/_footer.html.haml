@@ -12,4 +12,5 @@
     = link_to "Siel.si", 'http://www.siel.si', :title => 'Siel - Ruby gostovanje'
   
   .facebook
-    = render :partial => "/layouts/facebook_like"
+    - unless local_request?
+      = render :partial => "/layouts/facebook_like"

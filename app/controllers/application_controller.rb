@@ -1,8 +1,3 @@
-# TODO Seznam "izbrisanih" tock
-# TODO Acts_as_versioned
-# TODO Dodaj link na original google map (v footer?)
-# TODO Dodaj link na povecanje distance-a za posamezna mesta
-
 class ApplicationController < ActionController::Base
 
   DEFAULT_LAT=46.0620023
@@ -51,13 +46,13 @@ class ApplicationController < ActionController::Base
       if current_user
         store_location
         flash[:notice] = "Stran je namenjena neregistriranim uporabnikom!"
-        redirect_to account_url
+        redirect_to profile_url
         return false
       end
     end
     
     def store_location
-      session[:return_to] = request.request_uri
+      session[:return_to] = request.fullpath
     end
     
     def redirect_back_or_default(default)

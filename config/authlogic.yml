@@ -1,0 +1,17 @@
+connect:
+  twitter:
+    key: "vW2fRxAjbl8Qzjd3q8HIg"
+    secret: "6c31m3diIifkgcz1sVv8AmagoWxSglLKJudyW1RBIk"
+    label: "Twitter"
+  facebook:
+    key: "e73ee069e0d8b2c73e62a63fb7fd3f68"
+    secret: "6f8dd6d8220797ccaa8bb3e2e30e8b0e"
+    label: "Facebook"
+  google:
+    key: "staging.wifi-tocke.si"
+    secret: "Rvg/rrbVG2Py17jU3nKash7S"
+    label: "Google"
+  yahoo:
+    key: "my_key"
+    secret: "my_secret"
+    label: "Yahoo"

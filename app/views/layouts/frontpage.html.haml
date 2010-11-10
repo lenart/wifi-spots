@@ -17,7 +17,11 @@
     = javascript_include_merged :base
 
   %body#front
-  
+
+    - if current_user
+      = link_to "Edit", edit_user_path(current_user)
+      = link_to "Logout", logout_path
+
     #head
       #controls
         = link_to '<span>Dodaj točko</span>', new_spot_path, :id => "add_point"

@@ -9,7 +9,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100402173634) do
+ActiveRecord::Schema.define(:version => 20101101153116) do
+
+  create_table "access_tokens", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "type",       :limit => 30
+    t.string   "key"
+    t.string   "token",      :limit => 1024
+    t.string   "secret"
+    t.boolean  "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "access_tokens", ["key"], :name => "index_access_tokens_on_key", :unique => true
 
   create_table "categories", :force => true do |t|
     t.string   "name",        :limit => 50
@@ -26,6 +39,16 @@ ActiveRecord::Schema.define(:version => 20100402173634) do
   end
 
   add_index "cities", ["cached_slug"], :name => "index_cities_on_cached_slug"
+
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "slugs", :force => true do |t|
     t.string   "name"
@@ -67,18 +90,20 @@ ActiveRecord::Schema.define(:version => 20100402173634) do
   add_index "spots", ["lat", "lng"], :name => "index_spots_on_lat_and_lng"
 
   create_table "users", :force => true do |t|
-    t.string   "email",             :limit => 100,                 :null => false
-    t.string   "crypted_password",                                 :null => false
-    t.string   "password_salt",     :limit => 40,                  :null => false
-    t.string   "name",              :limit => 50,  :default => "", :null => false
-    t.string   "persistence_token",                                :null => false
-    t.string   "perishable_token",                                 :null => false
+    t.string   "email"
+    t.string   "crypted_password"
+    t.string   "password_salt"
+    t.string   "name",              :limit => 50, :default => "", :null => false
+    t.string   "persistence_token",                               :null => false
+    t.string   "perishable_token",                                :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "active_token_id"
   end
 
+  add_index "users", ["active_token_id"], :name => "index_users_on_active_token_id"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["perishable_token"], :name => "index_users_on_perishable_token"
+  add_index "users", ["persistence_token"], :name => "index_users_on_persistence_token"
 
   create_table "versions", :force => true do |t|
     t.integer  "versioned_id"
