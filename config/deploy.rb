@@ -12,6 +12,7 @@ task :staging do
   
   namespace :vlad do
     remote_task :restart, :roles => :web do
+      puts "Restarting server"
       run "touch #{current_path}/tmp/restart.txt"
     end
   end
@@ -94,6 +95,11 @@ namespace :vlad do
     run "cd #{current_release}; rake ts:index RAILS_ENV=production"
     # should we restart the server?
     # run "cd #{current_release}; rake ts:restart RAILS_ENV=production"
+  end
+  
+  desc "Show last 100 lines of production.log"
+  remote_task :log, :roles => :app do
+    run "tail -n 1000 #{current_path}/log/production.log"
   end
   
   desc "Update the crontab file"
