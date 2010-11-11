@@ -1,30 +1,54 @@
-set :user, "wifitocke"
-set :domain, "#{user}@s3.ruby.si"
-set :ssh_flags, "-p 65022"
 set :application, "wifi-tocke.si"
-set :deploy_to, "/home/wifitocke/#{application}"
+set :ssh_flags, "-p 65022"
 set :repository, "git@github.com:lenart/wifi-spots.git"
 
-set :mongrel_conf, "#{deploy_to}/current/config/mongrel_cluster.yml"
-set :mongrel_environment, 'production'
-set :whenever_path, '/home/wifitocke/.gem/ruby/1.8/bin/'
+task :staging do
+  set :user, "formitas"
+  set :domain, "#{user}@91.185.222.91"
+  
+  set :deploy_to, "/home/formitas/www/staging.#{application}"
+  
+  set :revision, "origin/oauth"
+  
+  namespace :vlad do
+    remote_task :restart, :roles => :web do
+      run "touch #{current_path}/tmp/restart.txt"
+    end
+  end
+end
+
+task :production do
+  set :user, "wifitocke"
+  set :domain, "#{user}@s3.ruby.si"
+  
+  set :deploy_to, "/home/wifitocke/#{application}"
+
+  set :mongrel_conf, "#{deploy_to}/current/config/mongrel_cluster.yml"
+  set :mongrel_environment, 'production'
+  set :whenever_path, '/home/wifitocke/.gem/ruby/1.8/bin/'
+  
+  
+  namespace :vlad do
+
+    remote_task :start, :roles => :web do
+      puts "Executing: mongrel_rails cluster::start -C #{mongrel_conf}"
+      run "mongrel_rails cluster::start -C #{mongrel_conf}"
+    end
+
+    remote_task :stop, :roles => :web do
+      puts "Executing: mongrel_rails cluster::stop -C #{mongrel_conf}"
+      run "mongrel_rails cluster::stop -C #{mongrel_conf}"
+    end
+
+    remote_task :restart, :roles => :web do
+      puts "Executing: mongrel_rails cluster::restart -C #{mongrel_conf}"
+      run "mongrel_rails cluster::restart -C #{mongrel_conf}"
+    end
+    
+  end
+end
 
 namespace :vlad do
-
-  remote_task :start, :roles => :web do
-    puts "Executing: mongrel_rails cluster::start -C #{mongrel_conf}"
-    run "mongrel_rails cluster::start -C #{mongrel_conf}"
-  end
-
-  remote_task :stop, :roles => :web do
-    puts "Executing: mongrel_rails cluster::stop -C #{mongrel_conf}"
-    run "mongrel_rails cluster::stop -C #{mongrel_conf}"
-  end
-  
-  remote_task :restart, :roles => :web do
-    puts "Executing: mongrel_rails cluster::restart -C #{mongrel_conf}"
-    run "mongrel_rails cluster::restart -C #{mongrel_conf}"
-  end
   
   desc "Symlinks the configuration files"
   remote_task :symlink_config, :roles => :web do
