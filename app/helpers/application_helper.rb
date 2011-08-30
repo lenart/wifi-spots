@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   
@@ -5,9 +6,9 @@ module ApplicationHelper
     @hide_map || false
   end
   
-  
   def textilize(text)
-    RedCloth.new(text).to_html
+    # RedCloth.new(text)
+    RDiscount.new(text).to_html.html_safe
   end
   
   def tweet_this(text)
@@ -16,6 +17,10 @@ module ApplicationHelper
   
   def facebook_this(text,url = "http://wifi-tocke.si")
     "http://www.facebook.com/sharer.php?u=#{URI.encode(url)}&t=#{CGI.escape(text)}"
+  end
+  
+  def reci
+    "kaj pa je to zdej"
   end
 
 
@@ -32,17 +37,16 @@ module ApplicationHelper
     'Seznam WiFi točk v Sloveniji, kjer lahko brezplačno dostopate do interneta. Poznaš tudi ti kako? Dodaj jo na zemljevid!'
   end
   
-  
   def title(page_title)
-    @content_for_title = h(page_title.to_s + " | WiFi točke")
+    content_for :title, h(page_title.to_s + " | WiFi točke")
   end
   
   def keywords(content)
-    @content_for_keywords = h(content.to_s)
+    content_for :keywords, h(content.to_s)
   end
 
   def description(content)
-    @content_for_description = h(content.to_s)
+    content_for :description, h(content.to_s)
   end
   
   

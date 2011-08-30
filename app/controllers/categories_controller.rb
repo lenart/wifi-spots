@@ -1,3 +1,4 @@
+# encoding: utf-8
 class CategoriesController < InheritedResources::Base
   
   before_filter :authorize, :except => [:index, :show]

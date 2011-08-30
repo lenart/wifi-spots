@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Search
   
   include Geokit::Geocoders
@@ -65,7 +66,9 @@ class Search
       
     if @location && @location.success
       logger "Searching for spots: #{@query} near [#{@location.lat}, #{@location.lng}]"
-      results = Spot.find(:all, :conditions => ["distance < ? AND deleted=false", self.radius], :origin => [@location.lat, @location.lng], :order => "distance asc").paginate :page => @page, :per_page => PER_PAGE
+      # results = Spot.all(:conditions => ["distance < ? AND deleted=false", self.radius], :geo => [@location.lat, @location.lng], :order => "distance asc").paginate :page => @page, :per_page => PER_PAGE
+      raise "ThinkingSphinx has new API!"
+      results = Spot.search(:geo => [@location.lat, @location.lng]).paginate :page => @page, :per_page => PER_PAGE
     else
       logger "Searching for spots: #{@query}"
       results = Spot.search @query, :with => {:deleted => false}, :page => @page, :per_page => PER_PAGE

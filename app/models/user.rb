@@ -1,3 +1,4 @@
+# encoding: utf-8
 # TODO Use Observer to deliver signup email
 
 class User < ActiveRecord::Base
@@ -22,7 +23,7 @@ class User < ActiveRecord::Base
     pass = generate_password
     user = User.create(:email => email, :password => pass, :password_confirmation => pass)
     
-    UserMailer.deliver_anonymous_signup_notification(user) if user.valid?
+    UserMailer.anonymous_signup_notification(user).deliver if user.valid?
     
     return user
   end

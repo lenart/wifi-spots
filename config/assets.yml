@@ -1,0 +1,9 @@
+embed_assets: on
+
+javascripts:
+  base:
+    - public/javascripts/*.js
+
+stylesheets:
+  base:
+    - public/stylesheets/screen.css

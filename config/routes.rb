@@ -1,33 +1,37 @@
-ActionController::Routing::Routes.draw do |map|
-  # map.root :controller => 'spots', :action => 'index'
-  map.root :controller => 'page', :action => 'home' 
-  
-  map.connect '/home', :controller => 'page', :action => 'home'
+Wifitocke::Application.routes.draw do  
+  root to: 'page#home'
 
-  map.resources :categories, :as => 'kategorije'
+  resources :categories
+  resources :spots do
+    collection do
+      post :import
+    end
+    member do
+      put :restore
+      put :delete
+      put :revert
+    end
+  end
+
+  resources :cities
+  resources :users do
+    member do
+      get :contact
+      post :contact
+    end
+  end
+
+  resources :user_sessions
   
-  map.resources :spots, :as => 'tocke',
-                :collection => { :import => :post },
-                :member => { :delete => :put, :revert => :put, :restore => :put }
-  
-  map.resources :cities, :as => 'mesta'
-                        
-  map.resources :users, :member => { :contact => :any }
-  map.resources :user_sessions
-  
-  map.signup '/signup', :controller => 'users',         :action => 'new'
-  map.login  '/login',  :controller => 'user_sessions', :action => 'new'
-  map.logout '/logout', :controller => 'user_sessions', :action => 'destroy'  
-  
-  # Support old routes
-  map.connect '/cities', :controller => 'cities', :action => 'index'
-  map.connect '/categories', :controller => 'categories', :action => 'index'
-  map.connect '/spots', :controller => 'spots', :action => 'index'
-  
-  map.connect '/spots/:id', :controller => 'spots', :action => 'show', :id => :id
-  map.connect '/cities/:id', :controller => 'cities', :action => 'show', :id => :id
-  map.connect '/categories/:id', :controller => 'categories', :action => 'show', :id => :id
-  
-  # map.connect ':controller/:action/:id'
-  # map.connect ':controller/:action/:id.:format'
+  match '/signup' => 'users#new', :as => :signup
+  match '/login' => 'user_sessions#new', :as => :login
+  match '/logout' => 'user_sessions#destroy', :as => :logout
+
+  # What are these?
+  match '/cities' => 'cities#index'
+  match '/categories' => 'categories#index'
+  match '/spots' => 'spots#index'
+  match '/spots/:id' => 'spots#show', :id => :id
+  match '/cities/:id' => 'cities#show', :id => :id
+  match '/categories/:id' => 'categories#show', :id => :id  
 end

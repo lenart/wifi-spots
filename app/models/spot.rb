@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Spot < ActiveRecord::Base
   
   # RESERVED_PERMALINKS = %w(spot spots city cities admin login logout signup)
@@ -23,11 +24,11 @@ class Spot < ActiveRecord::Base
   
   validates_uniqueness_of :permalink, :allow_blank => true
   
-  named_scope :recent, :order => "created_at DESC", :limit => 10, :conditions => { :deleted => false }
-  named_scope :deleted, :conditions => { :deleted => true }
-  named_scope :active, :conditions => { :deleted => false }
+  scope :recent, :order => "created_at DESC", :limit => 10, :conditions => { :deleted => false }
+  scope :deleted, :conditions => { :deleted => true }
+  scope :active, :conditions => { :deleted => false }
   
-  named_scope :invalid, :conditions => ["lat=? AND lng=? AND deleted=false", ApplicationController::DEFAULT_LAT, ApplicationController::DEFAULT_LNG]
+  scope :invalid, :conditions => ["lat=? AND lng=? AND deleted=false", ApplicationController::DEFAULT_LAT, ApplicationController::DEFAULT_LNG]
   
   define_index do
     indexes title
@@ -36,7 +37,12 @@ class Spot < ActiveRecord::Base
     indexes notes
     
     has :open, :as => 'open' # should be written like this open is reserved by ruby
-    has lat, lng, deleted
+
+    # lat, lng should always be in radians not degrees
+    has "RADIANS(lat)", :as => :lat, :type => :float
+    has "RADIANS(lng)", :as => :lng, :type => :float
+
+    has deleted
     where "deleted=false"
   end
   

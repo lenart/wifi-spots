@@ -11,7 +11,8 @@
       You are welcome to download the code and make improvements
       http://github.com/lenart/wifi-spots
 
-    %title= yield(:title) || "WiFi točke"
+    %title
+      = yield(:title) || "WiFi točke"
     %meta{ "http-equiv" => "Content-Type", :content=> "text/html; charset=utf-8" }
     
     %meta{ :name => 'keywords', :content => yield(:keywords) || default_keywords }
@@ -20,15 +21,14 @@
     %meta{ :name => 'author', :content => "Lenart Rudel s.p." }
     %meta{ :name => 'framework', :content => "Ruby on Rails 2.3.x" }
     
-    = stylesheet_link_merged :base
-    = javascript_include_merged :base
+    = include_stylesheets :base
+    = include_javascripts :base
     = javascript_include_tag "application"
     
-    = '<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>'
+    = '<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>'.html_safe
     = yield :head
 
   %body
-  
     #head
       %h1= link_to(image_tag('wifi.gif', :alt => "Wifi") + image_tag('tocke.gif', :alt => "točke"), root_url)
 
@@ -37,7 +37,7 @@
         = yield :map
       
       #controls
-        = link_to '<span>Dodaj točko</span>', new_spot_path, :id => "add_point"
+        = link_to '<span>Dodaj točko</span>'.html_safe, new_spot_path, :id => "add_point"
       
     #main
       - flash.each do |key, msg|

@@ -1,3 +1,4 @@
+# encoding: utf-8
 class SpotsController < InheritedResources::Base
   
   # before_filter :require_user, :only => [:edit, :update, :destroy]
@@ -35,7 +36,6 @@ class SpotsController < InheritedResources::Base
     end
   end
   
-
   def new
     new! do
       @spot.lat, @spot.lng = DEFAULT_LAT, DEFAULT_LNG

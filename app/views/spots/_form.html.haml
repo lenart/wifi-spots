@@ -1,6 +1,4 @@
-= error_messages_for :spot, :header_tag => "h3", |
-                            :header_message => "Napaka pri shranjevanju", |
-                            :message => "Pri shranjevanju točke je prišlo do ene ali več napak." |
+= render "shared/error_messages", :target => @spot
 
 = hidden_field_tag 'lat', @spot.lat
 = hidden_field_tag 'lng', @spot.lng
@@ -8,7 +6,7 @@
 
 #spot_details
 
-  %dl
+  %dl      
     %dt= f.label :title, "Ime lokacije"
     %dd
       = f.text_field :title

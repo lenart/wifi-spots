@@ -36,6 +36,10 @@
       =# link_to "Potrdi izbris", delete_spot_path(@spot), :method => :delete, :confirm => "Si prepričan da želiš odstraniti točko?"
 
 %dl
+  %dt Mnozina
+  %dd
+    = t :error, :count => 5
+
   %dt Kategorija
   %dd= @spot.category.name
 
@@ -67,7 +71,9 @@
   
   - unless @spot.notes.blank?
     %dt Opis
-    %dd= textilize(@spot.notes)
+    %dd
+      = reci
+      = textilize(@spot.notes)
 
   - unless @spot.author.blank?
     %dt Avtor

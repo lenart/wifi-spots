@@ -1,0 +1,6 @@
+sl:
+  error:
+    one: "%{count} napaka"
+    two: "%{count} napaki"
+    few: "%{count} napake"
+    other: "%{count} napak"

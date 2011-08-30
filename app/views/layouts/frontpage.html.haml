@@ -13,14 +13,14 @@
       Lenart Rudel, programming | http://twitter.com/lenartr
       Nina Kožar, Blaž Galič, idea & copy
     
-    = stylesheet_link_merged :base
-    = javascript_include_merged :base
+    = include_stylesheets :base
+    = include_javascripts :base
 
   %body#front
   
     #head
       #controls
-        = link_to '<span>Dodaj točko</span>', new_spot_path, :id => "add_point"
+        = link_to '<span>Dodaj točko</span>'.html_safe, new_spot_path, :id => "add_point"
     
     #main
       - flash.each do |key, msg|

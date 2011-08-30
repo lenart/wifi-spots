@@ -1,3 +1,4 @@
+# encoding: utf-8
 class UsersController < ApplicationController
   
   before_filter :require_user, :only => :index
@@ -20,7 +21,7 @@ class UsersController < ApplicationController
     
     if @user.save
       # OPTIMIZE Move this into an observer
-      UserMailer.deliver_signup_notification(@user)
+      UserMailer.signup_notification(@user).deliver
       flash[:notice] = "Zahvaljujemo se vam za registracijo!"
       redirect_to @user
     else

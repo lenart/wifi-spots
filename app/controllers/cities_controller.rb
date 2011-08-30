@@ -1,3 +1,4 @@
+# encoding: utf-8
 class CitiesController < ApplicationController
   
   before_filter :ensure_current_city_url, :only => :show

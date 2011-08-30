@@ -1,3 +1,4 @@
+# encoding: utf-8
 class City < ActiveRecord::Base
   
   has_friendly_id :name, :use_slug => true, :approximate_ascii => true
@@ -14,7 +15,7 @@ class City < ActiveRecord::Base
   def spots(options = {})
     defaults = { :within => 15 }.merge!(options)
     
-    Spot.find(:all, :origin => [self.lat, self.lng], :conditions => defaults[:conditions], :within => defaults[:within], :order => 'distance')
+    Spot.all :origin => [self.lat, self.lng], :conditions => defaults[:conditions], :within => defaults[:within], :order => 'distance'
   end
   
 end

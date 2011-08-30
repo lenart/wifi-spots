@@ -1,3 +1,4 @@
+# encoding: utf-8
 # TODO Seznam "izbrisanih" tock
 # TODO Acts_as_versioned
 # TODO Dodaj link na original google map (v footer?)
@@ -11,9 +12,8 @@ class ApplicationController < ActionController::Base
 
   include InheritedResources::DSL
 
-  helper :all # include all helpers, all the time
-  helper_method :logged_in?, :current_user
-  helper_method :local_request?
+  # helper :all # include all helpers, all the time
+  helper_method :logged_in?, :current_user, :local_request?
 
   # Hide these fields in logs
   # filter_parameter_logging :password, :password_confirmation
@@ -63,6 +63,10 @@ class ApplicationController < ActionController::Base
     def redirect_back_or_default(default)
       redirect_to(session[:return_to] || default)
       session[:return_to] = nil
+    end
+    
+    def local_request?
+      Rails.env == :development
     end
   
 end
