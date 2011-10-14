@@ -1,5 +1,5 @@
 Wifitocke::Application.routes.draw do  
-  root to: 'page#home'
+  root :to => 'page#home'
 
   resources :categories
   resources :spots do
