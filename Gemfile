@@ -2,14 +2,14 @@
 # This preamble is the current preamble for Rails 3 apps; edit as needed.
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.0.6'
+gem 'rails', '3.1'
 
-gem 'mysql2', '~> 0.2.6'
+gem 'mysql2'
 gem 'haml'
 gem 'sass'
 
 # gem 'RedCloth'
-gem 'rdiscount'
+gem 'rdiscount'   # Textile parser
 
 gem 'authlogic'
 gem 'inherited_resources'
