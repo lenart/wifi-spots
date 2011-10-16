@@ -1,36 +1,26 @@
-var ResizingTextArea = Class.create();
+// This is a manifest file that'll be compiled into including all the files listed below.
+// Add new JavaScript/Coffee code in separate files in this directory and they'll automatically
+// be included in the compiled file accessible from http://example.com/assets/application.js
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// the compiled file.
+//
+// require jquery
+// require jquery_ujs
 
-ResizingTextArea.prototype = {
-    defaultRows: 1,
+//= require prototype
+//= require effects
+//= require controls
+//= require dragdrop
 
-    initialize: function(field)
-    {
-        this.defaultRows = Math.max(field.rows, 1);
-        this.resizeNeeded = this.resizeNeeded.bindAsEventListener(this);
-        Event.observe(field, "click", this.resizeNeeded);
-        Event.observe(field, "keyup", this.resizeNeeded);
-    },
+//= require ym4r-gm
+//= require wms-gs
+//= require clusterer
+//= require markerGroup
+//= require geoRssOverlay
 
-    resizeNeeded: function(event)
-    {
-        var t = Event.element(event);
-        var lines = t.value.split('\n');
-        var newRows = lines.length + 1;
-        var oldRows = t.rows;
-        for (var i = 0; i < lines.length; i++)
-        {
-            var line = lines[i];
-            if (line.length >= t.cols) newRows += Math.floor(line.length / t.cols);
-        }
-        if (newRows > t.rows) t.rows = newRows;
-        if (newRows < t.rows) t.rows = Math.max(this.defaultRows, newRows);
-    }
-}
+//= require test
 
-
-
-
-
+// require_tree .
 
 var InfoWindow = Class.create({
   template: new Template("<div>#{title}</div>"),

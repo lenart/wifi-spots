@@ -13,8 +13,8 @@
       Lenart Rudel, programming | http://twitter.com/lenartr
       Nina Kožar, Blaž Galič, idea & copy
     
-    = include_stylesheets :base
-    = include_javascripts :base
+    = stylesheet_link_tag :screen
+    = javascript_include_tag :application
 
   %body#front
   
@@ -35,4 +35,4 @@
 
     - unless local_request?
       = render :partial => "layouts/google_analytics"
-      = render :partial => "layouts/get_satisfaction"
+      = # render :partial => "layouts/get_satisfaction"

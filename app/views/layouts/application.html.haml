@@ -19,11 +19,10 @@
     %meta{ :name => 'description', :content => yield(:description) || default_description }
     
     %meta{ :name => 'author', :content => "Lenart Rudel s.p." }
-    %meta{ :name => 'framework', :content => "Ruby on Rails 2.3.x" }
+    %meta{ :name => 'framework', :content => "Ruby on Rails" }
     
-    = include_stylesheets :base
-    = include_javascripts :base
-    = javascript_include_tag "application"
+    = stylesheet_link_tag :screen
+    = javascript_include_tag :application
     
     = '<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>'.html_safe
     = yield :head
@@ -52,4 +51,4 @@
 
     - unless local_request?
       = render :partial => "layouts/google_analytics"
-      = render :partial => "layouts/get_satisfaction"
+      = # render :partial => "layouts/get_satisfaction"
