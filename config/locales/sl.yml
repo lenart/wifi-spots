@@ -4,3 +4,8 @@ sl:
     two: "%{count} napaki"
     few: "%{count} napake"
     other: "%{count} napak"
+    
+
+  will_paginate:
+    next_label: 'Naslednja »'
+    previous_label: '« Prejšnja'
