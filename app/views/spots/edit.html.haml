@@ -1,12 +1,16 @@
+- title "Uredi podatke"
+- 
 %h2 Uredi podatke
 
-- form_for @spot do |f|
+= form_for @spot do |f|
   = render :partial => "form", :locals => { :f => f }
   
   = submit_tag "Osveži"
 
+
 :javascript
-  Event.observe(window, 'load', function(){
-    app = new WifiMap([#{@spot.client_side_json}])
-    app.spots[0].dragEnable()
+  $().ready(function() {
+    wifi = new WifiMap
+    wifi.placeSpot(#{@spot.client_side_json})
+    wifi.makeEditable()
   })

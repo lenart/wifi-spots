@@ -36,10 +36,6 @@
       =# link_to "Potrdi izbris", delete_spot_path(@spot), :method => :delete, :confirm => "Si prepričan da želiš odstraniti točko?"
 
 %dl
-  %dt Mnozina
-  %dd
-    = t :error, :count => 5
-
   %dt Kategorija
   %dd= @spot.category.name
 
@@ -109,6 +105,7 @@
   
 
 :javascript
-  Event.observe(window, 'load', function(){
-    app = new WifiMap([#{@spot.client_side_json}])
+  $().ready(function() {
+    wifi = new WifiMap
+    wifi.placeSpot(#{@spot.client_side_json})
   })

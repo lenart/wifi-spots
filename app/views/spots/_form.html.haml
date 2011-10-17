@@ -52,7 +52,7 @@
         = f.text_field :author
         %span.hint Ne skrbite, tudi mi ne maramo SPAMa. Vašega naslova ne bomo nikoli objavili.
   
-  #notes{:style => 'display:none'}
+  #notes
     %dl
       %dt= f.label :location, "Naslov"
       %dd
@@ -70,23 +70,15 @@
         %span.hint Vpišite povezavo do spletne strani. Primer: http://wifi-tocke.si
 
   %p#toggle_notes
-    = link_to_function 'Želim vnesti še dodaten opis', 'UI.toggleNotes()'
-    
-  - unless logged_in?
-    /
-      %dl
-        %dt= label_tag :morje, "Barva morja?"
-        %dd
-          = text_field_tag :morje, ""
-          %span.hint Samo preverjamo ali ste res človek.
+    = link_to_function 'Želim vnesti še dodaten opis', '$.hideNotes()'
+
     = recaptcha_tags
     
-- unless @spot.location.blank? && @spot.city.blank? && @spot.url.blank?
-  = javascript_tag "UI.toggleNotes()"
-
-- javascript_tag do
-  new ResizingTextArea($('spot_notes'));
-  $('spot_open').observe('change', UI.passState);
-  UI.passState();
-
 %br.clear
+
+= javascript_include_tag "wifi_ui"
+= javascript_tag do
+  - unless @spot.has_notes?
+    $('#notes').hide()
+  - if @spot.open?
+    $.togglePass()

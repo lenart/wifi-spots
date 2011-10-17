@@ -2,9 +2,12 @@
 
 %h1 Prijavite se
 
-= error_messages_for :user_session
+- if @user_session.errors.any?
+  %ul
+    - @post.errors.full_messages.each do |msg|
+      %li= msg
 
-- form_for @user_session do |f|
+= form_for @user_session do |f|
 
   %p
     = f.label :email, "E-mail naslov"

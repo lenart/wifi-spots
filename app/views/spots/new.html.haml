@@ -2,7 +2,7 @@
 
 %h2 Vnesi novo WiFi točko
 
-- form_for @spot do |f|
+= form_for @spot do |f|
 
   - if false
     - if @user
@@ -24,7 +24,8 @@
   = link_to "« Nazaj na seznam", spots_path
   
 :javascript
-  Event.observe(window, 'load', function() {
-    app = new WifiMap([#{@spot.client_side_json}])
-    app.spots[0].dragEnable()
+  $().ready(function() {
+    wifi = new WifiMap
+    wifi.placeSpot(#{@spot.client_side_json})
+    wifi.makeEditable()
   })

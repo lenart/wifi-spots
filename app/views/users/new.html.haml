@@ -3,8 +3,13 @@
 %h1 Registracija uporabnika
 
 = error_messages_for :user
+- if @user.errors.any? do
+  %p
+    - @user.errors.full_messages.each do |msg|
+      = msg
+      %br
 
-- form_for @user do |f|
+= form_for @user do |f|
 
   = render :partial => 'form', :locals => { :f => f }
 

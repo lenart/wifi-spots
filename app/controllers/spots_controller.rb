@@ -13,10 +13,10 @@ class SpotsController < InheritedResources::Base
   rescue_from 'Search::NoResults' do |e|
     # TODO Ce v bliznji okolici ni tock, potem ni nujno da je napacna geolokacija (primer: kotlje)
     unless e.geo_search
-      flash[:notice] = "Ni rezultatov, ki ustrezajo iskalnemu kriteriju: <strong>#{e.query}</strong>."
+      flash[:notice] = "Ni rezultatov, ki ustrezajo iskalnemu kriteriju: <strong>#{e.query}</strong>.".html_safe
       redirect_to(root_path)
     else
-      flash[:notice] = "<strong>Opozorilo:</strong> Niz <strong>#{e.query}</strong> smo poskusili geolocirati vendar iskanje ni vrnilo rezultatov. Poskušam še iskanje brez geolokacije."
+      flash[:notice] = "<strong>Opozorilo:</strong> Niz <strong>#{e.query}</strong> smo poskusili geolocirati vendar iskanje ni vrnilo rezultatov. Poskušam še iskanje brez geolokacije.".html_safe
       flash.keep
       redirect_to(spots_path + "?q=#{e.query}&geo=false")
     end
@@ -37,10 +37,7 @@ class SpotsController < InheritedResources::Base
   end
   
   def new
-    new! do
-      @spot.lat, @spot.lng = DEFAULT_LAT, DEFAULT_LNG
-      @spot.zoom = DEFAULT_ZOOM
-    end
+    @spot = Spot.new
   end
   
   def create
@@ -73,6 +70,10 @@ class SpotsController < InheritedResources::Base
     else
       render :action => 'new'
     end
+  end
+  
+  def edit
+    @spot = Spot.find params[:id]
   end
   
   def update

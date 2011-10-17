@@ -11,7 +11,8 @@
     %noscript
       %div{:class => "noscript"}
         = submit_tag "Potrdi"
-        
+ 
+/ TODO Replace with jQuery alternative
 :javascript
   document.observe("dom:loaded", function() {
     Event.observe($("city"), "change", function() {
