@@ -6,10 +6,6 @@
 
 class ApplicationController < ActionController::Base
 
-  DEFAULT_LAT=46.0620023
-  DEFAULT_LNG=14.5096064
-  DEFAULT_ZOOM = 8
-
   include InheritedResources::DSL
 
   # helper :all # include all helpers, all the time

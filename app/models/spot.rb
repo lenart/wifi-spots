@@ -1,6 +1,10 @@
 # encoding: utf-8
 class Spot < ActiveRecord::Base
   
+  DEFAULT_LAT = 46.0620023
+  DEFAULT_LNG = 14.5096064
+  DEFAULT_ZOOM = 9
+  
   # RESERVED_PERMALINKS = %w(spot spots city cities admin login logout signup)
 
   include SpotImporter
@@ -13,8 +17,10 @@ class Spot < ActiveRecord::Base
                   :use_slug => true,
                   :approximate_ascii => true #, :reserved_words => RESERVED_PERMALINKS 
   
+  after_initialize :set_defaults
   before_validation :geocode_address
   
+
   belongs_to :category
   belongs_to :user
   
@@ -28,7 +34,7 @@ class Spot < ActiveRecord::Base
   scope :deleted, :conditions => { :deleted => true }
   scope :active, :conditions => { :deleted => false }
   
-  scope :invalid, :conditions => ["lat=? AND lng=? AND deleted=false", ApplicationController::DEFAULT_LAT, ApplicationController::DEFAULT_LNG]
+  scope :invalid, :conditions => ["lat=? AND lng=? AND deleted=false", Spot::DEFAULT_LAT, Spot::DEFAULT_LNG]
   
   define_index do
     indexes title
@@ -39,15 +45,20 @@ class Spot < ActiveRecord::Base
     has :open, :as => 'open' # should be written like this open is reserved by ruby
 
     # lat, lng should always be in radians not degrees
-    has "RADIANS(lat)", :as => :lat, :type => :float
-    has "RADIANS(lng)", :as => :lng, :type => :float
+    has "RADIANS(lat)", :as => :latitude, :type => :float
+    has "RADIANS(lng)", :as => :longitude, :type => :float
 
-    has deleted
+    # we don't index deleted spots
     where "deleted=false"
   end
   
+  def set_defaults
+    self.lat, self.lng = DEFAULT_LAT, DEFAULT_LNG
+    self.zoom = DEFAULT_ZOOM
+  end
+  
   def validate
-    errors.add_to_base "Prosimo, da določite kje se točka nahaja! Na zemljevidu (zgoraj) postavite marker na željeno lokacijo." if self.lat == ApplicationController::DEFAULT_LAT && self.lng == ApplicationController::DEFAULT_LNG
+    errors.add_to_base "Prosimo, da določite kje se točka nahaja! Na zemljevidu (zgoraj) postavite marker na željeno lokacijo." if self.lat == Spot::DEFAULT_LAT && self.lng == Spot::DEFAULT_LNG
   end
   
   def latlng
@@ -80,6 +91,10 @@ class Spot < ActiveRecord::Base
     options[:only] = [:id, :title, :lat, :lng, :zoom, :description]
     # options[:methods] = [:unanswered_questions, :skips_left, :question_count, :textilized_instructions]
     to_json(options)
+  end
+  
+  def has_notes?
+    not (location.blank? && city.blank? && url.blank?)
   end
   
   

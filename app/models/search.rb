@@ -2,6 +2,7 @@
 class Search
   
   include Geokit::Geocoders
+  include GeoConversions # Why do I have to include this here? It should autoload from /lib
   
   MAX_SEARCH_RADIUS = 20
   PER_PAGE = 50
@@ -66,12 +67,14 @@ class Search
       
     if @location && @location.success
       logger "Searching for spots: #{@query} near [#{@location.lat}, #{@location.lng}]"
-      # results = Spot.all(:conditions => ["distance < ? AND deleted=false", self.radius], :geo => [@location.lat, @location.lng], :order => "distance asc").paginate :page => @page, :per_page => PER_PAGE
-      raise "ThinkingSphinx has new API!"
-      results = Spot.search(:geo => [@location.lat, @location.lng]).paginate :page => @page, :per_page => PER_PAGE
+      results = Spot.search(
+        :geo => [@location.lat.to_degrees, @location.lng.to_degrees],
+        :with => {"@geodist" => Range.new(0.to_f, (@distance.to_i*1000).to_f)},
+        :order => "@geodist ASC, @relevance DESC"
+      ).page(@page).per(PER_PAGE)
     else
       logger "Searching for spots: #{@query}"
-      results = Spot.search @query, :with => {:deleted => false}, :page => @page, :per_page => PER_PAGE
+      results = Spot.search(@query).page(@page).per(PER_PAGE)
     end
     
     raise Search::NoResults.new(self.string, self.geo_search) if results.empty?

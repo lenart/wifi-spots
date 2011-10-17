@@ -12,7 +12,7 @@
       http://github.com/lenart/wifi-spots
 
     %title
-      = yield(:title) || "WiFi točke"
+      = yield(:title) || "WiFi točke - seznam brezplačnih wifi točk po Sloveniji"
     %meta{ "http-equiv" => "Content-Type", :content=> "text/html; charset=utf-8" }
     
     %meta{ :name => 'keywords', :content => yield(:keywords) || default_keywords }
@@ -24,7 +24,7 @@
     = stylesheet_link_tag :screen
     = javascript_include_tag :application
     
-    = '<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>'.html_safe
+    = '<script src="http://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>'.html_safe
     = yield :head
 
   %body
@@ -40,7 +40,7 @@
       
     #main
       - flash.each do |key, msg|
-        = content_tag :div, msg, :class => "#{key} flash"
+        = content_tag :div, msg.html_safe, :class => "#{key} flash"
 
       = yield
 
