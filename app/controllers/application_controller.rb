@@ -1,8 +1,4 @@
 # encoding: utf-8
-# TODO Seznam "izbrisanih" tock
-# TODO Acts_as_versioned
-# TODO Dodaj link na original google map (v footer?)
-# TODO Dodaj link na povecanje distance-a za posamezna mesta
 
 class ApplicationController < ActionController::Base
 
@@ -19,6 +15,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery # :secret => 'ec26ea81e88e7b79838fcdf43774e96d'
 
   private #################################################################################
+
+    def user_for_paper_trail
+      logged_in? ? current_user : 'Public user'
+    end
 
     def current_user
       return @current_user if defined?(@current_user)

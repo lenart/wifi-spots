@@ -89,7 +89,8 @@
       %dt Razlog za izbris
       %dd= @spot.reason
   
-  - unless @spot.versions.empty?
+  - # FIXME Versioning needs to be reimplemented
+  - if false # @spot.versions.empty?
     %table#versions
       %thead
         %tr
@@ -99,7 +100,7 @@
           %th &nbsp;
       %tbody
         - @spot.versions.each do |version|
-          = render :partial => 'version', :object => version
+          = # render :partial => 'version', :object => version
 %p.clear
   = link_to "« Nazaj na seznam", spots_path
   

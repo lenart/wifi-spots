@@ -20,7 +20,7 @@ gem 'geokit-rails3'
 gem 'friendly_id'
 gem 'thinking-sphinx'
 gem 'recaptcha', :require => "recaptcha/rails"
-gem 'vestal_versions'
+gem 'paper_trail', '~>2'
 gem 'whenever'
 
 gem 'nokogiri'  # used by Spot.import_gmaps_rss

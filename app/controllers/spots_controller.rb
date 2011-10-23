@@ -85,7 +85,7 @@ class SpotsController < InheritedResources::Base
       @spot.zoom = params[:zoom]
     end
 
-    @spot.updated_by = current_user || "Neznanec (#{request.remote_ip})"
+    # @spot.updated_by = current_user || "Neznanec (#{request.remote_ip})"
     @spot.attributes = params[:spot]
     
     if @spot.valid? && captcha_valid?
@@ -99,22 +99,24 @@ class SpotsController < InheritedResources::Base
   
   # Revert to an earlier spot version
   def revert
-    if params[:version]
-      @spot = Spot.find params[:id]
-      @spot.updated_by = current_user
-      @spot.revert_to!(params[:version].to_i)
-      flash[:notice] = "Verzija točke zamenjana."
-    else
-      flash[:notice] = "Nepravilna verzija."
-    end
+    # if params[:version]
+    #   @spot = Spot.find params[:id]
+    #   @spot.updated_by = current_user
+    #   @spot.revert_to!(params[:version].to_i)
+    #   flash[:notice] = "Verzija točke zamenjana."
+    # else
+    #   flash[:notice] = "Nepravilna verzija."
+    # end
+    flash[:error] = "Revert tock ni implementiran"
     redirect_to @spot
   end
   
   # Undelete spot
   def restore
-    @spot = Spot.find params[:id]
-    @spot.restore
-    flash[:notice] = "Točka ni več izbrisana."
+    # @spot = Spot.find params[:id]
+    # @spot.restore
+    # flash[:notice] = "Točka ni več izbrisana."
+    flash[:error] = "Restore tock ni implementiran"
     redirect_to @spot
   end
   

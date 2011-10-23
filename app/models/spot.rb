@@ -11,14 +11,15 @@ class Spot < ActiveRecord::Base
   
   acts_as_mappable :default_units => :kms,
                    :default_formula => :sphere  
-  versioned
+
+  has_paper_trail
   
   has_friendly_id :title,
                   :use_slug => true,
                   :approximate_ascii => true #, :reserved_words => RESERVED_PERMALINKS 
   
-  after_initialize :set_defaults
   before_validation :geocode_address
+  before_validation :set_defaults, :on => :create
   
 
   belongs_to :category
@@ -52,9 +53,10 @@ class Spot < ActiveRecord::Base
     where "deleted=false"
   end
   
+
   def set_defaults
-    self.lat, self.lng = DEFAULT_LAT, DEFAULT_LNG
-    self.zoom = DEFAULT_ZOOM
+    self.lat, self.lng = DEFAULT_LAT, DEFAULT_LNG if self.lat.blank? && self.lng.blank?
+    self.zoom = DEFAULT_ZOOM if self.zoom.blank?
   end
   
   def validate
@@ -70,15 +72,15 @@ class Spot < ActiveRecord::Base
   end
   
   def restore
-    skip_version do
-      update_attributes({:deleted => false, :reason => nil})
-    end
+    # skip_version do
+    #   update_attributes({:deleted => false, :reason => nil})
+    # end
   end
   
   def delete(reason)
-    skip_version do
-      update_attributes({:deleted => true, :reason => reason})
-    end
+    # skip_version do
+    #   update_attributes({:deleted => true, :reason => reason})
+    # end
   end
   
   def destroy!
