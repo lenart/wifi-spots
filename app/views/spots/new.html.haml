@@ -25,7 +25,8 @@
   
 :javascript
   $().ready(function() {
-    wifi = new WifiMap
+    wifi = new WifiMap()
     wifi.placeSpot(#{@spot.client_side_json})
-    wifi.makeEditable()
+    wifi.makeEditable(wifi.spots[0])
+    wifi.map.setCenter(wifi.spots[0].latlng)
   })

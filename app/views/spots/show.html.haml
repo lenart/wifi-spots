@@ -103,10 +103,11 @@
           = # render :partial => 'version', :object => version
 %p.clear
   = link_to "« Nazaj na seznam", spots_path
-  
+
 
 :javascript
   $().ready(function() {
-    wifi = new WifiMap
-    wifi.placeSpot(#{@spot.client_side_json})
+    wifi = new WifiMap()
+    wifi.placeSpot(#{@spot.client_side_json}, false)
+    wifi.map.setCenter(wifi.spots[0].latlng)
   })

@@ -21,10 +21,10 @@
 
 / TODO Replace with jQuery alternative
 %script{:type => "text/javascript"}
-  Event.observe(window, 'load', function(){
-  var wifiSpots = [
+  $().ready(function() {
+  wifi = new WifiMap()
+  wifi.placeSpots([
   - @spots.each do |spot|
-    = spot.client_side_json + ","
-  ]
-  app = new WifiMap(wifiSpots)
+    = spot.client_side_json.html_safe + ","
+  ], true)
   })

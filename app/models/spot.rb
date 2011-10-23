@@ -87,10 +87,15 @@ class Spot < ActiveRecord::Base
     self.destroy
   end
   
+  def permalink
+    unless new_record?
+      Rails.application.routes.url_helpers.spot_url self, :host => "wifi-tocke.si"
+    end
+  end
   
   def client_side_json
     options = {}
-    options[:only] = [:id, :title, :lat, :lng, :zoom, :description]
+    options[:only] = [:id, :permalink, :title, :lat, :lng, :zoom, :description]
     # options[:methods] = [:unanswered_questions, :skips_left, :question_count, :textilized_instructions]
     to_json(options)
   end
