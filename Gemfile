@@ -5,6 +5,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.1'
 gem 'mysql2'
 gem 'json'
+gem 'haml-rails'
 
 # gem 'RedCloth'
 gem 'rdiscount'   # Textile parser
@@ -28,8 +29,7 @@ gem 'nokogiri'  # used by Spot.import_gmaps_rss
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'haml'
-  # gem 'sass-rails', "  ~> 3.1.0" 
+  gem 'sass-rails'
   gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
 end

@@ -37,15 +37,15 @@ class SpotsController < InheritedResources::Base
   end
   
   def new
-    @spot = Spot.new
+    @spot = Spot.new :lat => Spot::DEFAULT_LAT, :lng => Spot::DEFAULT_LNG, :zoom => Spot::DEFAULT_ZOOM
   end
   
   def create
     @spot = Spot.new params[:spot]
     
-    @spot.lat = params[:lat].blank? ? DEFAULT_LAT : params[:lat]
-    @spot.lng = params[:lng].blank? ? DEFAULT_LNG : params[:lng]
-    @spot.zoom = params[:zoom].blank? ? DEFAULT_ZOOM : params[:zoom]
+    @spot.lat = params[:lat].blank? ? Spot::DEFAULT_LAT : params[:lat]
+    @spot.lng = params[:lng].blank? ? Spot::DEFAULT_LNG : params[:lng]
+    @spot.zoom = params[:zoom].blank? ? Spot::DEFAULT_ZOOM : params[:zoom]
     
     # Create new user on the fly if necessary
     if logged_in?
@@ -64,10 +64,12 @@ class SpotsController < InheritedResources::Base
     end
     
     if @spot.valid? && captcha_valid?
+      flash.delete(:recaptcha_error) # why would we need a blank flash?
       @spot.save
       flash[:notice] = "WiFi točka je bila dodana! Hvala za pomoč!"
       redirect_to spot_url(@spot)
     else
+      flash.delete(:recaptcha_error) # we don't need incorrect-captcha-sol as a message, do we?
       render :action => 'new'
     end
   end
@@ -200,7 +202,7 @@ class SpotsController < InheritedResources::Base
     
     def captcha_valid?
       return true if logged_in?
-      verify_recaptcha(:model => @spot, :message => "Ojoj! Napačno si prepisal-a reCaptcha znake. Poskusi še enkrat!")
+      verify_recaptcha(:model => @spot)
     end
   
 end

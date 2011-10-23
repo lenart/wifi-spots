@@ -3,14 +3,15 @@ class @WifiMap
     @spots = []
   
   placeSpot: (spot) ->
-    # console.log spot
+    console.log spot
     
     # create a latlng point
     @latlng = new google.maps.LatLng(spot.lat, spot.lng)
+    console.log @latlng
     
     # defaults for map
     defaults = {
-      zoom: spot.zoom,
+      zoom: 17, # default to 17 || spot.zoom
       center: @latlng,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
