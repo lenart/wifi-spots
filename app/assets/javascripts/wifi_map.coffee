@@ -6,16 +6,18 @@ class @WifiMap
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     @spots = []
+    @bounds = null
     @info = null
     @map = new google.maps.Map(document.getElementById("map_canvas"), defaults)
     
-  placeSpots: (spots) ->
-    @placeSpot spot for spot in spots
+  placeSpots: (spots, showInfo = false) ->
+    @placeSpot spot, showInfo for spot in spots
+    @autoPanZoom()
     
   placeSpot: (spot, showInfo = false) ->
     spot.latlng = new google.maps.LatLng(spot.lat, spot.lng)
     spot.marker = new google.maps.Marker({position: spot.latlng, map: @map, title: spot.title})
-    
+
     if showInfo
       # create info window for spot
       spot.infowindow = new google.maps.InfoWindow(
@@ -40,3 +42,35 @@ class @WifiMap
     google.maps.event.addListener(@map, 'zoom_changed', ->
       $('#zoom').val(this.getZoom())
     )
+  
+  autoPanZoom: ->
+    @bounds = new google.maps.LatLngBounds()
+    @bounds.extend spot.latlng for spot in @spots
+    @map.fitBounds @bounds
+  
+  geolocate: ->
+    if navigator.geolocation
+      browserSupportFlag = true
+      navigator.geolocation.getCurrentPosition( (position) =>
+        initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
+        @map.setCenter(initialLocation)
+      =>
+        @handleNoGeolocation(browserSupportFlag)
+      )
+    else if google.gears
+      browserSupportFlag = true
+      geo = google.gears.factory.create('beta.geolocation')
+      geo.getCurrentPosition( (position) =>
+        initialLocation = new google.maps.LatLng(position.latitude,position.longitude)
+        @map.setCenter(initialLocation)
+      =>
+        @handleNoGeoLocation(browserSupportFlag)
+      )
+    
+    else
+      # Browser doesn't support Geolocation
+      browserSupportFlag = false
+      @handleNoGeolocation(browserSupportFlag)
+      
+  handleNoGeolocation: (support) ->
+    console.log "No GEO available. Sorry!"
