@@ -19,10 +19,6 @@ module ApplicationHelper
     "http://www.facebook.com/sharer.php?u=#{URI.encode(url)}&t=#{CGI.escape(text)}"
   end
   
-  def reci
-    "kaj pa je to zdej"
-  end
-
 
   #
   # Page headers
@@ -47,21 +43,6 @@ module ApplicationHelper
 
   def description(content)
     content_for :description, h(content.to_s)
-  end
-  
-  
-  
-  
-  
-  def spots_center(spots)
-    maxlat, maxlng, minlat, minlng = -Float::MAX, -Float::MAX, Float::MAX, Float::MAX
-    spots.each do |spot|
-      maxlat = spot.lat if spot.lat > maxlat
-      minlat = spot.lat if spot.lat < minlat
-      maxlng = spot.lng if spot.lng > maxlng
-      minlng = spot.lng if spot.lng < minlng
-    end
-    return [(maxlat + minlat)/2, (maxlng + minlng)/2]
   end
   
   
