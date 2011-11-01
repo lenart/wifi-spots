@@ -12,6 +12,7 @@
   $().ready(function() {
     wifi = new WifiMap()
     wifi.placeSpot(#{@spot.client_side_json})
-    wifi.makeEditable(wifi.spots[0])
     wifi.map.setCenter(wifi.spots[0].latlng)
+    wifi.map.setZoom(#{@spot.zoom})
+    wifi.makeEditable(wifi.spots[0])
   })

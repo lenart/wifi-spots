@@ -47,21 +47,7 @@ class SpotsController < InheritedResources::Base
     @spot.lng = params[:lng].blank? ? Spot::DEFAULT_LNG : params[:lng]
     @spot.zoom = params[:zoom].blank? ? Spot::DEFAULT_ZOOM : params[:zoom]
     
-    # Create new user on the fly if necessary
-    if logged_in?
-      @spot.user = current_user
-    # TODO Generate users here if we want to
-    # else
-    #   user = User.quick_create(params[:email])
-    #   if user.valid?
-    #     @spot.user = user
-    #   else
-    #     @map = initialize_google_map('map', @spot, :drag => true, :drag_title => "Kje se nahaja WiFi točka?", :icon => 'icon_drag', :load_icons => 'icon_drag')
-    #     flash[:error] = "E-mail ki ste ga vnesli je že registriran. Če ste vi lastnik, potem <a href='/login' title='Prijavi se'>se prijavite</a>."
-    #     render :action => 'new'
-    #     return
-    #   end
-    end
+    @spot.user = current_user if logged_in?
     
     if @spot.valid? && captcha_valid?
       flash.delete(:recaptcha_error) # why would we need a blank flash?
@@ -92,9 +78,11 @@ class SpotsController < InheritedResources::Base
     
     if @spot.valid? && captcha_valid?
       @spot.save
+      flash.delete :recaptcha_error
       flash[:notice] = "Podatki za WiFi točko so bili posodobljeni."
       redirect_to spot_path(@spot)
     else
+      flash.delete(:recaptcha_error) # we don't need incorrect-captcha-sol as a message, do we?
       render :action => 'edit'
     end
   end
@@ -152,6 +140,19 @@ class SpotsController < InheritedResources::Base
     Spot.import_from_rss
     flash[:notice] = "Točke so bile importirane iz RSS vira!"
     redirect_to spots_path
+  end
+  
+  def geolocate
+    # http://localhost:3000/geolocate?lat=45.7977549812313&lng=15.1810706047881
+    location = Geokit::Geocoders::MultiGeocoder.reverse_geocode( [params[:lat], params[:lng]] )
+    
+    render :text => location.full_address
+    
+    # respond_to do |format|
+    #   format.html { location.full_address }
+    #   format.js { render :text => location.full_address, :head => 200 }
+    # end
+    
   end
 
   

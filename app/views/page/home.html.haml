@@ -6,7 +6,23 @@
   Imen ulic in mest ne sklanjajte!
   %span{:style => 'color: #008de7'} Primer: Metoda Mikuža 5
   
-%h3{:style => "margin: 10px 0 20px 6px; padding-bottom: 4px; border-bottom: 1px solid #ccc;"} Sveže vnešene
-%ul#main_list
-  - Spot.recent.each do |spot|
-    = render spot
+#content
+  %h3{:style => "margin: 10px 0 20px 6px; padding-bottom: 4px; border-bottom: 1px solid #ccc;"} Sveže vnešene
+  %ul#main_list
+    - Spot.recent.each do |spot|
+      %li= render spot
+      
+  #aside
+    #advertisement
+      .be_honest
+        Oglasno sporočilo
+
+      = # swf_tag "/swfs/banner-336x280.swf", :width => 336, :height => 280
+      = image_tag "http://lorempixel.com/500/400/"
+    / %br.clear
+  
+:javascript
+  $().ready(function() {
+  wifi_util = new WifiUtil()
+  wifi_util.geolocate()
+  })

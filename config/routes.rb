@@ -26,6 +26,7 @@ Wifitocke::Application.routes.draw do
   match '/signup' => 'users#new', :as => :signup
   match '/login' => 'user_sessions#new', :as => :login
   match '/logout' => 'user_sessions#destroy', :as => :logout
+  match '/geolocate' => 'spots#geolocate', :as => :geolocate
 
   # What are these?
   match '/cities' => 'cities#index'

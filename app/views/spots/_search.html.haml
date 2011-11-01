@@ -1,11 +1,19 @@
 = form_tag spots_path, :method => :get, :id => "search" do
   = hidden_field_tag :distance, 1
   = text_field_tag :q, @search.string
-  %label{:style => "display:block;"}
-    = check_box_tag :geo, false, params[:geo], :style => "margin: 0; padding: 0; width: auto;"
-    Iskanje brez geolokacije
-  %br
+  
+  %p#user_location
+    %em pridobivamo vašo lokacijo ...
+  /
+    %label{:style => "display:block;"}
+      = check_box_tag :geo, false, params[:geo], :style => "margin: 0; padding: 0; width: auto;"
+      Iskanje brez geolokacije
+    %br
+
   = submit_tag "Poišči točke", :class => "btn", :name => nil
   
 :javascript
-  $("q").focus();
+  $().ready(function() {
+    $("#q").focus();
+  });
+  

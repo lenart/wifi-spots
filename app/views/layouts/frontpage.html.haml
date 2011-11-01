@@ -2,33 +2,43 @@
 !!!
 %html
   %head
-    %title= yield(:title) || "WiFi točke"
+    %title= title_or_default
     %meta{ "http-equiv" => "Content-Type", :content=> "text/html; charset=utf-8" }
-    %meta{ :name => 'keywords', :content => yield(:keywords) || 'wifi točke, brezžična omrežja, brezplačne točke, brezplačen internet, dostop do interneta, wi-fi, wireless' }
-    %meta{ :name => 'description', :content => yield(:description) || 'Seznam WiFi točk v Sloveniji, kjer lahko brezplačno dostopate do interneta. Poznaš tudi ti kako? Dodaj jo na zemljevid!' }
-    
+
+    %meta{ :name => 'keywords', :content => keywords_or_default }
+    %meta{ :name => 'description', :content => description_or_default }
+    %meta{ :name => 'author', :content => "Lenart Rudel s.p." }
+    %meta{ :name => 'framework', :content => "Ruby on Rails" }
+
     /
       AUTHORS:
       Dusan Smolnikar, design | http://dusan.fora.si/
-      Lenart Rudel, programming | http://twitter.com/lenartr
+      Lenart Rudel s.p., programming | http://twitter.com/lenartr
       Nina Kožar, Blaž Galič, idea & copy
+      
+      This project is open-source.
+      You are welcome to download the code and make improvements
+      http://github.com/lenart/wifi-spots
     
     = stylesheet_link_tag :screen
     = javascript_include_tag :application
-
-  %body#front
-  
-    #head
-      #controls
-        = link_to '<span>Dodaj točko</span>'.html_safe, new_spot_path, :id => "add_point"
     
-    #main
-      - flash.each do |key, msg|
-        = content_tag :div, msg, :class => "#{key} flash"
+    = '<script src="http://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>'.html_safe
+    = yield :head
 
-      %h1= link_to(image_tag('wifi.gif', :alt => "Wifi") + image_tag('tocke.gif', :alt => "točke"), root_url)
+  %body.front
+    #wrapper
+      #head
+        #controls
+          = link_to '<span>Dodaj točko</span>'.html_safe, new_spot_path, :id => "add_point"
+    
+      #main
+        - flash.each do |key, msg|
+          = content_tag :div, msg.html_safe, :class => "#{key} flash"
 
-      = yield
+        %h1= link_to(image_tag('wifi.gif', :alt => "Wifi") + image_tag('tocke.gif', :alt => "točke"), root_url)
+
+        = yield
       
     #footer
       = render :partial => "/layouts/footer"

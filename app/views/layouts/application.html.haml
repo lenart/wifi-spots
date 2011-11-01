@@ -1,25 +1,21 @@
+
 !!!
 %html
   %head
+    %title= title_or_default
+    %meta{ "http-equiv" => "Content-Type", :content=> "text/html; charset=utf-8" }
+    
+    %meta{ :name => 'keywords', :content => keywords_or_default }
+    %meta{ :name => 'description', :content => description_or_default }
+    %meta{ :name => 'author', :content => "Lenart Rudel s.p." }
+    %meta{ :name => 'framework', :content => "Ruby on Rails" }
+
     /
       AUTHORS:
       Dusan Smolnikar, design | http://dusan.fora.si/
       Lenart Rudel s.p., programming | http://twitter.com/lenartr
       Nina Kožar, Blaž Galič, idea & copy
-      
-      This project is open-source.
-      You are welcome to download the code and make improvements
-      http://github.com/lenart/wifi-spots
 
-    %title
-      = yield(:title) || "WiFi točke - seznam brezplačnih wifi točk po Sloveniji"
-    %meta{ "http-equiv" => "Content-Type", :content=> "text/html; charset=utf-8" }
-    
-    %meta{ :name => 'keywords', :content => yield(:keywords) || default_keywords }
-    %meta{ :name => 'description', :content => yield(:description) || default_description }
-    
-    %meta{ :name => 'author', :content => "Lenart Rudel s.p." }
-    %meta{ :name => 'framework', :content => "Ruby on Rails" }
     
     = stylesheet_link_tag :screen
     = javascript_include_tag :application
@@ -27,27 +23,26 @@
     = '<script src="http://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>'.html_safe
     = yield :head
 
-  %body
-    #head
-      %h1= link_to(image_tag('wifi.gif', :alt => "Wifi") + image_tag('tocke.gif', :alt => "točke"), root_url)
+  %body.sub
+    #wrapper
+      #head
+        %h1= link_to(image_tag('wifi.gif', :alt => "Wifi") + image_tag('tocke.gif', :alt => "točke"), root_url)
 
-    - unless hide_map?
-      #map_canvas
-        = yield :map
+      - unless hide_map?
+        #map_canvas
+          = yield :map
       
-      #controls
-        = link_to '<span>Dodaj točko</span>'.html_safe, new_spot_path, :id => "add_point"
+        #controls
+          = link_to '<span>Dodaj točko</span>'.html_safe, new_spot_path, :id => "add_point"
       
-    #main
-      - flash.each do |key, msg|
-        = content_tag :div, msg.html_safe, :class => "#{key} flash"
+      #main
+        - flash.each do |key, msg|
+          = content_tag :div, msg.html_safe, :class => "#{key} flash"
 
-      = yield
+        = yield
 
     #footer
       = render :partial => "/layouts/footer"
-      
-    = yield :foot
 
     - unless local_request?
       = render :partial => "layouts/google_analytics"

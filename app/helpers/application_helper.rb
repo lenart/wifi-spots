@@ -25,12 +25,16 @@ module ApplicationHelper
   # Defining variable @content_for_myvar = "123" is the same as doing content_for :myvar { "123" }
   # 
   
-  def default_keywords
-    'wifi točke, brezžična omrežja, brezplačne točke, brezplačen internet, dostop do interneta, wi-fi, wireless'
+  def title_or_default
+    content_for?(:title) ? content_for(:title) : "WiFi točke - seznam brezplačnih wifi točk po Sloveniji"
   end
   
-  def default_description
-    'Seznam WiFi točk v Sloveniji, kjer lahko brezplačno dostopate do interneta. Poznaš tudi ti kako? Dodaj jo na zemljevid!'
+  def keywords_or_default
+    content_for?(:keywords) ? content_for(:keywords) : 'wifi točke, brezžična omrežja, brezplačne točke, brezplačen internet, dostop do interneta, wi-fi, wireless'
+  end
+  
+  def description_or_default
+    content_for?(:description) ? content_for(:description) : 'Seznam WiFi točk v Sloveniji, kjer lahko brezplačno dostopate do interneta. Poznaš tudi ti kako? Dodaj jo na zemljevid!'
   end
   
   def title(page_title)

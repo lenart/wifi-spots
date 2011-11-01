@@ -14,6 +14,9 @@
   %span.longitude= @spot.lng
 
 %p
+  = link_to_function 'Lociraj me', 'wu = new WifiUtil; wu.geolocate();'
+
+%p
   = link_to "Uredi podatke", edit_spot_path(@spot), :rel => :nofollow
   - if logged_in? && (current_user == @spot.user || current_user.admin?)
     |

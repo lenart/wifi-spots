@@ -2,8 +2,8 @@
 sl:
   recaptcha:
       errors:
-        verification_failed: Napačno si prepisal-a reCaptcha znake. Poskusi še enkrat!
-        recaptcha_unavailable: Storitev reCaptcha se ne odziva :( Prosim poskusi malenkost kasneje
+        verification_failed: "Napačno si prepisal-a reCaptcha znake. Poskusi še enkrat!"
+        recaptcha_unavailable: "Storitev reCaptcha se ne odziva :( Prosim poskusi malenkost kasneje"
           
 
   error:
