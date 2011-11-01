@@ -1,3 +1,5 @@
+Array::remove = (v) -> $.grep @,(e)->e!=v
+
 class @WifiMap
   constructor: () ->
     defaults = {
@@ -16,7 +18,12 @@ class @WifiMap
     
   placeSpot: (spot, showInfo = false) ->
     spot.latlng = new google.maps.LatLng(spot.lat, spot.lng)
-    spot.marker = new google.maps.Marker({position: spot.latlng, map: @map, title: spot.title})
+    spot.marker = new google.maps.Marker({
+      position: spot.latlng,
+      map: @map,
+      title: spot.title,
+      icon: "<%= image_path('wifi-icon.png') %>"
+    })
 
     if showInfo
       # create info window for spot
@@ -47,13 +54,22 @@ class @WifiMap
     @bounds = new google.maps.LatLngBounds()
     @bounds.extend spot.latlng for spot in @spots
     @map.fitBounds @bounds
+    
+  showUserMarker: ->
+    @user.marker.setMap @map if @user.marker
   
+  removeUserMarker: ->
+    @user.marker.setMap null if @user.marker
+
+class @WifiUtil
+  constructor: ->
+    @user = {id:0, permalink: null, title: "Tukaj se nahajate vi.", zoom: 13}
+
   geolocate: ->
     if navigator.geolocation
       browserSupportFlag = true
       navigator.geolocation.getCurrentPosition( (position) =>
-        initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
-        @map.setCenter(initialLocation)
+        userLocation = @handleUserLocation(position)
       =>
         @handleNoGeolocation(browserSupportFlag)
       )
@@ -61,8 +77,8 @@ class @WifiMap
       browserSupportFlag = true
       geo = google.gears.factory.create('beta.geolocation')
       geo.getCurrentPosition( (position) =>
-        initialLocation = new google.maps.LatLng(position.latitude,position.longitude)
-        @map.setCenter(initialLocation)
+        userLocation = @handleUserLocation(position)
+        wifi.map.panTo(userLocation)
       =>
         @handleNoGeoLocation(browserSupportFlag)
       )
@@ -74,3 +90,40 @@ class @WifiMap
       
   handleNoGeolocation: (support) ->
     console.log "No GEO available. Sorry!"
+    @user.address = null
+    $('#user_location').html('Tvoj lokacije ni mogoče določiti :(')
+    
+  handleUserLocation: (position) ->
+    positionLatLng = new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
+    
+    # console.log "Setting user location and latlng"
+    @user.lat = positionLatLng.lat()
+    @user.lng = positionLatLng.lng()
+    @user.latlng = positionLatLng
+    
+    # geocode latlng to address
+    $.ajax({
+      url: '/geolocate',
+      data: { lat: @user.lat, lng: @user.lng },
+      success: (data) =>
+        @user.address = data
+        $('#user_location').html("Vaša lokacija: " + data)
+      error: (data) =>
+        @user.address = null
+        $('#user_location').html("Prišlo je do napake pri določanju vaše lokacije.")
+    })
+    
+    
+    unless @user.marker
+      @user.marker = new google.maps.Marker({position: positionLatLng, title: "Tukaj se nahajate vi.", icon: "<%= image_path('star-icon.png') %>" })
+      
+      if (typeof wifi != 'undefined' )
+        # map exists
+        @user.marker.setMap(wifi.map)
+        wifi.spots.push @user
+        wifi.autoPanZoom()
+        
+    else
+      @user.marker.setPosition(positionLatLng)
+    
+    return positionLatLng

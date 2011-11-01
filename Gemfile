@@ -2,9 +2,8 @@
 # This preamble is the current preamble for Rails 3 apps; edit as needed.
 source 'http://rubygems.org'
 
-gem 'rails', '3.1'
+gem 'rails', '3.1.1'
 gem 'mysql2'
-gem 'json'
 gem 'haml-rails'
 
 # gem 'RedCloth'
@@ -17,6 +16,7 @@ gem 'will_paginate'
 gem 'geokit-rails3'
 # https://github.com/apneadiving/Google-Maps-for-Rails
 # https://github.com/parolkar/cartographer
+gem 'json'
 
 gem 'friendly_id'
 gem 'thinking-sphinx'
@@ -35,8 +35,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
-
-
+gem 'swf_fu', :git => "git://github.com/rodrigob/swf_fu"
 
 #
 # User and permissions

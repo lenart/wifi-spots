@@ -1,0 +1,54 @@
+
+@media handheld, screen and (max-width: 60em) {
+  #footer,
+  #footer .facebook,
+  #footer .copyright {
+    position: static;
+  }
+}
+
+@media handheld, screen and (max-width: 35em) {
+  #head {
+    padding-bottom:0.5em; }
+    
+    #head h1 {
+      margin:0 0.4em; }
+    
+    #head fieldset {
+      clear:both;
+      text-align:left;
+      padding:1em 0 0 0.5em;
+      margin:0; }
+      
+      #head label {
+        display:block; white-space:normal; }
+        
+  #main {
+    margin: 2em 1em 2em 1em;
+    padding-bottom:0;
+    }
+    
+    #main_list li a {
+      float:none;
+      display:block;
+      width:auto;
+      white-space:normal;
+      }
+      
+    #main_list li span {
+      width:auto;
+      white-space:normal;
+      }
+    
+    #main dt {
+      padding-bottom:0em;
+      }
+    
+    #main dd {
+      clear:left;
+      }
+      
+  #controls a {
+    float:left; margin:0 0 0 0.5em; }
+
+}

@@ -7,4 +7,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require wifi_map
+//= require wifi_ui
+//= require swfobject
 // require_tree .
