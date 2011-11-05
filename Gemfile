@@ -22,7 +22,7 @@ gem 'friendly_id'
 gem 'thinking-sphinx'
 gem 'recaptcha', :require => "recaptcha/rails"
 gem 'paper_trail', '~>2'
-gem 'whenever'
+gem 'whenever', :require => false
 
 gem 'nokogiri'  # used by Spot.import_gmaps_rss
 
